@@ -1,0 +1,37 @@
+{ 
+  "beneficiary": { 
+    "additional_info": { 
+      "personal_email": "john.walker@gmail.com" 
+    }, 
+    "address": { 
+      "city": "London", 
+      "country_code": "GB", 
+      "postcode": "EC2Y 9DT", 
+      "state": "VIC", 
+      "street_address": "4 Fore Street" 
+    }, 
+    "bank_details": { 
+      "account_currency": "EUR", 
+      "account_name": "John Walker", 
+      "bank_country_code": "GB", 
+      "bank_name": "JPMorgan Chase Bank", 
+      "iban": "GB92CHAS60924250001121", 
+      "swift_code": "CHASGB2L" 
+    }, 
+    "date_of_birth": "", 
+    "entity_type": "PERSONAL", 
+    "first_name": "John", 
+    "last_name": "Walker" 
+  }, 
+  "metadata": { 
+    "order_id": "0123456789" 
+  }, 
+  "payment_amount": "10000", 
+  "payment_currency": "EUR", 
+  "payment_method": "LOCAL", 
+  "quote_id": "string", 
+  "reason": "travel", 
+  "reference": "PMT1936398", 
+  "request_id": "b12fc9d5-8165-4755-aa1e-ebdf4e27d9c9", 
+  "source_currency": "USD" 
+}

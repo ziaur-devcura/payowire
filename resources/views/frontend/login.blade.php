@@ -23,8 +23,9 @@
                                     <h3>Welcome back</h3>
                                     <p>Do You Want To Open An Account? <a href="signup.php">Sign up</a></p>
 
-                                    <form id="loginform" method="post" action="#">
+                                    <form id="loginform" method="post" action="{{route('logindo')}}">
                                         <div class="form-group">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                             <input type="email" name="userEmail" placeholder="Your email address" class="form-control">
                                         </div>
 
@@ -38,7 +39,7 @@
                                             <a href="forgetpass.php">Forgot Password?</a>
                                         </div>
 
-                                        <div class="form-group" id="msg">
+                                        <div class="form-group mt-2" id="msg">
                                         </div>
 
                                    
@@ -52,56 +53,7 @@
         </section>
         <!-- End Login Area -->
 
-                          <script  type="text/javascript">
-
-                            window.onload = function() {
-
-
-$("#loginClick").click(function(){$("#msg").html('<div class="spinner-border text-primary" role="status"></div>');
-$.post($("#loginform").attr("action"),$("#loginform :input").serializeArray(),function(info){
-  
-    
-    $("#msg").html(info);
-    $("#loginClick").attr("disabled", false);
-    //clearInput();
-  })
-  .fail( function(xhr, textStatus, errorThrown) {
-
-      $("#msg").html("");
-
-      $("#loginClick").attr("disabled", false);
-
-       
-           $.each(xhr.responseJSON.errors, function (key, value) {
-
-                var error_msg='<li>'+value+'</li>';
-
-                if(value!="")
-            $("#msg").html($("#msg").html()+error_msg);
-
-                    });
-
-           if($("#msg").html() == "")
-
-            $("#msg").html('<div class="alert alert-danger alert-dismissible text-start" role="alert"><ul class="mb-0">Connection error! Please try again.</ul><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
-        else
-            $("#msg").html('<div class="alert alert-danger alert-dismissible text-start" role="alert"><ul class="mb-0">'+$("#msg").html()+'</ul><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
-      
-
-
-    });
-
-});
-
-$("#loginform").submit( function(){
-    $("#loginClick").attr("disabled", true);
-  return false;
-});
-
-}
-
-
-  </script>
+        @include('helper/basic_form_submit',['click' => 'loginClick','formid'=>'loginform','msg'=>'msg'])
 
             <!-- Start Footer Area -->
 @include('frontend/footer')
