@@ -16,8 +16,9 @@
 									
 								</div>
 								<div>
-									<h2 class="text-white invoice-num">2478</h2>
-									<span class="text-white fs-18">Balance</span>
+									<h2 class="text-white invoice-num">{{$userBalance}}</h2>
+									<span class="text-white fs-18">Balance</span><br>
+									<span class="text-white text-md">Local Currency: {{round($setting->currency_rate*100,2)}} BDT</span>
 								</div>
 							</div>
 						</div>

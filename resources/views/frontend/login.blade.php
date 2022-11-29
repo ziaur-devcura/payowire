@@ -53,7 +53,7 @@
         </section>
         <!-- End Login Area -->
 
-        @include('helper/basic_form_submit',['click' => 'loginClick','formid'=>'loginform','msg'=>'msg'])
+        @include('helper/single_form_submit_nojs',['click' => 'loginClick','formid'=>'loginform','msg'=>'msg'])
 
             <!-- Start Footer Area -->
 @include('frontend/footer')

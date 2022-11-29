@@ -18,8 +18,14 @@
 	<link href="{{URL::asset('backend/vendor/jquery-nice-select/css/nice-select.css')}}" rel="stylesheet">
 	<link rel="stylesheet" href="{{URL::asset('backend/vendor/nouislider/nouislider.min.css')}}">
 	<link href="{{URL::asset('backend/icons/material-design-iconic-font/css/materialdesignicons.min.css')}}" rel="stylesheet">
+
+	<!-- Toastr -->
+    <link rel="stylesheet" href="{{URL::asset('backend/vendor/toastr/css/toastr.min.css')}}">
+
 	<!-- Style css -->
     <link href="{{URL::asset('backend/css/style.css')}}" rel="stylesheet">
+
+    <script src="{{URL::asset('backend/vendor/global/global.min.js')}}"></script>
 
     <style type="text/css">
     	.pointer {cursor: pointer;}
@@ -30,9 +36,36 @@
     		background: var(--rgba-primary-1);
     	}
 
+    	.bank_pending
+    	{
+    		background-color: #e3e6e9;
+    	}
+
     	.bank:hover
     	{
     		background: var(--rgba-primary-1);
+    	}
+
+    	.reponse_item
+    	{
+    		margin-left: 40px;
+  list-style-type: disc;
+  display: list-item
+    	}
+
+    	.success_modal
+    	{
+    		background: #68e365;
+    		border-top-left-radius: 1.75rem;
+    		border-top-right-radius: 1.75rem;
+    	}
+
+    	.success_modal_closeBtn
+    	{
+    		position: absolute;
+			top: 20px;
+			right: 20px;
+			color: #fff;
     	}
     	
     </style>

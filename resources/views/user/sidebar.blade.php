@@ -34,7 +34,7 @@
                      
                     </li>
 
-                    <li><a class="ai-icon" href="javascript:void()">
+                    <li><a class="ai-icon" href="{{route('user.create_card')}}">
 							<i class="flaticon-086-star"></i>
 							<span class="nav-text">Create Card</span>
 						</a>
@@ -47,15 +47,21 @@
 						</a>
                     
                     </li>
-                    <li><a class="ai-icon" href="javascript:void()">
+                    <li><a class="ai-icon" href="{{route('user.sendmoney')}}">
 							<i class="flaticon-003-arrow-up"></i>
 							<span class="nav-text">Send Money</span>
 						</a>
                       
                     </li>
-                    <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
+                    <li><a href="{{route('user.payment')}}" class="ai-icon" aria-expanded="false">
 							<i class="flaticon-013-checkmark"></i>
 							<span class="nav-text">Payment</span>
+						</a>
+					</li>
+
+					 <li><a href="{{route('user.payment')}}" class="ai-icon" aria-expanded="false">
+							<i class="flaticon-013-checkmark"></i>
+							<span class="nav-text">Mobile Airtime</span>
 						</a>
 					</li>
                   
