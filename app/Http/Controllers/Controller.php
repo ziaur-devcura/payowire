@@ -51,7 +51,7 @@ class Controller extends BaseController
         return ' <div class="alert alert-danger alert-dismissible fade show">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
                                     </button>
-                                    <strong>Error!</strong> '.$msg.'
+                                    <strong>Sorry!</strong> '.$msg.'
                                 </div>';
     }
 

@@ -67,6 +67,26 @@
 			right: 20px;
 			color: #fff;
     	}
+
+    	.virtual_card_bg
+    	{
+    		background: -webkit-gradient(linear, left top, right top, from(#ee0979), to(#ff6a00));
+    		background: linear-gradient(90deg, #ee0979 0%, #ff6a00 100%);
+    	}
+
+    	.virtial_card_logo
+    	{
+    		position: absolute;
+   			 bottom: 20px;
+    		right: 1rem;
+    	}
+
+    	.com_logo_vcc
+    	{
+    		position: absolute;
+    		top: 20px;
+    		right: 1rem;
+    	}
     	
     </style>
 	

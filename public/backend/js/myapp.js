@@ -3,7 +3,7 @@
 })
           
 
-    $('.amount').on('input',function(){
+    $('.all_amount').on('input',function(){
     var val = $(this).val();
     if(isNaN(val)){
          val = val.replace(/[^-?0-9\.]/g,'');
@@ -25,6 +25,21 @@
     $(this).val(val); 
 });
 
+
+        $('.amount').on('input',function(){
+    var val = $(this).val();
+    if(isNaN(val)){
+         val = val.replace(/[^0-9\.]/g,'');
+         if(val.split('.').length>1)
+     {
+             val =val.replace(/\.[0-9]+$/,"");
+       val =val.replace(/\.+$/,"");
+     }
+    }
+    $(this).val(val); 
+});
+
+
       function close_sendmoney_preview(confirm)
                                          {
 
@@ -41,3 +56,11 @@
 
 
                                          }
+
+
+    function remove_confirm()
+    {
+        if($("[name='confirm']").length)
+            $("[name='confirm']").remove();
+
+    }

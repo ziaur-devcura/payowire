@@ -59,7 +59,7 @@
 						</a>
 					</li>
 
-					 <li><a href="{{route('user.payment')}}" class="ai-icon" aria-expanded="false">
+					 <li><a href="#" class="ai-icon" aria-expanded="false">
 							<i class="flaticon-013-checkmark"></i>
 							<span class="nav-text">Mobile Airtime</span>
 						</a>

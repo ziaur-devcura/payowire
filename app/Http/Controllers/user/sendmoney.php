@@ -27,6 +27,9 @@ class sendmoney extends Controller
         $purpose = $request->purpose;
         $confirm = $request->confirm;
 
+        if($sendAmount<0 || !is_numeric($sendAmount) || !preg_match('/^[0-9]+(\\.[0-9]+)?$/', $sendAmount))
+            return parent::get_error_msg('Please enter a valid amount!');
+
         $userTable = parent::get_mod_User();
 
         $check_recipient = $userTable->where('email',$recipientEmail)->first();
@@ -102,11 +105,11 @@ class sendmoney extends Controller
 
                         }
                         else
-                            return parent::get_error_msg('Sorry Something went wrong! Please try again.');
+                            return parent::get_error_msg('Something went wrong! Please try again.');
                
                 }
             else
-                return parent::get_error_msg('Sorry Something went wrong! Please try again.');
+                return parent::get_error_msg('Something went wrong! Please try again.');
 
 
             }
@@ -120,6 +123,7 @@ class sendmoney extends Controller
 
 
                 return '<script>
+                $("#sendmoneyPreview").modal("hide");
                 $("#preview_result").html(\'<ul class="list-group list-group-flush">\' +
                                     \'<li class="list-group-item d-flex px-0 justify-content-between">\'+
                                         \'<strong>Recipient Name:</strong>\'+

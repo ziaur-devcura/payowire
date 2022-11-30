@@ -121,7 +121,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title">Send Money (Preview)</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    <button onclick="close_sendmoney_preview(0)" type="button" class="btn-close" data-bs-dismiss="modal">
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
