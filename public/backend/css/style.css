@@ -8974,7 +8974,9 @@ label {
 
 @media only screen and (max-width: 1023px) {
   .nav-header {
-    width: 5rem; }
+    width: 5rem;
+    background: transparent;
+     }
     .nav-header .brand-title {
       display: none; } }
 

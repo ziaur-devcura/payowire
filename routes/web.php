@@ -8,6 +8,7 @@ use App\Http\Controllers\user\fetch_bank_account;
 use App\Http\Controllers\user\sendmoney;
 use App\Http\Controllers\user\payment;
 use App\Http\Controllers\user\create_card;
+use App\Http\Controllers\user\cardlist;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +44,8 @@ Route::get('/user', [home::class,'viewHome'])->middleware('userAuth')->name('use
 Route::get('/user/bankAccount', [bank_account::class,'viewBankAccount'])->middleware('userAuth')->name('user.bank_account');
 Route::get('/user/sendmoney', [sendmoney::class,'sendmoneyView'])->middleware('userAuth')->name('user.sendmoney');
 Route::get('/user/payment', [payment::class,'paymentView'])->middleware('userAuth')->name('user.payment');
-Route::get('/user/crateCard', [create_card::class,'create_cardView'])->middleware('userAuth')->name('user.create_card');
+Route::get('/user/createCard', [create_card::class,'create_cardView'])->middleware('userAuth')->name('user.create_card');
+Route::get('/user/cardlist', [cardlist::class,'cardlistView'])->middleware('userAuth')->name('user.cardlist');
 
 
 ###################
@@ -55,6 +57,10 @@ Route::get('/user/crateCard', [create_card::class,'create_cardView'])->middlewar
 Route::post('/user/bankAccount/fetch_bank_account', [fetch_bank_account::class,'get_bank_account'])->middleware('userAuth','XssProtection')->name('user.get_bank');
 Route::post('/user/bankAccount/get_bank', [bank_account::class,'request_bank'])->middleware('userAuth','XssProtection')->name('user.request_bank');
 Route::post('/user/sendmoney/send', [sendmoney::class,'sendmoneyDo'])->middleware('userAuth','XssProtection')->name('user.sendmoneydo');
+Route::post('/user/createCard/createVisaCard', [create_card::class,'craete_visa_card'])->middleware('userAuth','XssProtection')->name('user.new_visa_card');
+Route::post('/user/createCard/createMasterCard', [create_card::class,'craete_master_card'])->middleware('userAuth','XssProtection')->name('user.new_master_card');
+
+
 
 
 

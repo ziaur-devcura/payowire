@@ -43,6 +43,7 @@ class sendmoneyReq extends FormRequest
             'whichBalance.required' => 'Please choose from balance',
             'sendAmount.required' => 'Please enter send amount',
             'sendAmount.between' => 'Send amount should be between 10 to 10,000 USD',
+            'sendAmount.numeric' => 'Please enter a valid USD amount',
             'purpose.max' => 'Purpose limit to 100 character only',
             'purpose.regex' => 'You provide unsupported character on purpose'
         ];

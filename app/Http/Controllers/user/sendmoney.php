@@ -99,7 +99,7 @@ class sendmoney extends Controller
                         {
 
                          return '<script>
-                         close_sendmoney_preview(1);
+                         close_preview(1,"#sendmoneyPreview","#sendmoneyForm","#sendmoneyMsg");
                          $("#successModal").modal("show");
                          </script>';
 

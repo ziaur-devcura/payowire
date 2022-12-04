@@ -1,6 +1,5 @@
            <script  type="text/javascript">
 
-                          
 
 $("#{{$click}}").click(function(){
 
@@ -57,7 +56,6 @@ $("#{{$formid}}").submit( function(){
     $("#{{$click}}").attr("disabled", true);
   return false;
 });
-
 
 
   </script>

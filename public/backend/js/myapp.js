@@ -40,18 +40,26 @@
 });
 
 
-      function close_sendmoney_preview(confirm)
+             $('.only-digit').on('input',function(){
+    var val = $(this).val();
+    
+    val = val.replace(/[^0-9]/g,'');
+    $(this).val(val); 
+});
+
+
+      function close_preview(confirm,modal_id,form_id='',msg_id='')
                                          {
 
                                             if($("[name='confirm']").length)
                                             $("[name='confirm']").remove();
 
-                                            $('#sendmoneyPreview').modal('hide');
+                                            $(modal_id).modal('hide');
 
                                             if(confirm==1)
                                             {
-                                                $('#sendmoneyForm').trigger("reset");
-                                                $('#sendmoneyMsg').html('');
+                                                $(form_id).trigger("reset");
+                                                $(msg_id).html('');
                                             }
 
 
@@ -64,3 +72,48 @@
             $("[name='confirm']").remove();
 
     }
+
+     function set_card_amount_visa(amount)
+                                            {
+
+                                                $('#visa_amount').val(amount);
+
+
+                                            }
+
+     function set_card_amount_mastercard(amount)
+                                            {
+
+                                                $('#mastercard_amount').val(amount);
+
+
+                                            }
+
+                                    function visa_card_pack_select(elm,pack)
+                                    {
+                                        $('.visatype').removeClass('active');
+                                        $(elm).addClass('active');
+                                       
+                                         $("#visaCardPack").val(pack);
+
+                                        if(pack == 1)
+                                            $('#visa_PackMsg').html('<p class="text-info">Lifetime Transaction limit 5,000 USD</p>');
+                                        else
+                                            $('#visa_PackMsg').html('<p class="text-info">Lifetime Unlimited Transaction</p>');
+
+                                    }
+
+                                       function master_card_pack_select(elm,pack)
+                                    {
+                                        $('.mastertype').removeClass('active');
+                                        $(elm).addClass('active');
+
+
+                                         $("#masterCardPack").val(pack);
+
+                                        if(pack == 1)
+                                            $('#master_PackMsg').html('<p class="text-info">Lifetime Transaction limit 5,000 USD</p>');
+                                        else
+                                            $('#master_PackMsg').html('<p class="text-info">Lifetime Unlimited Transaction</p>');
+
+                                    }

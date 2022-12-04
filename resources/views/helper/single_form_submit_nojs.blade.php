@@ -1,7 +1,6 @@
            <script  type="text/javascript">
 
-                            window.onload = function() {
-
+                         
 
 $("#{{$click}}").click(function(){
 
@@ -59,7 +58,6 @@ $("#{{$formid}}").submit( function(){
   return false;
 });
 
-}
 
 
   </script>

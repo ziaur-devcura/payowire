@@ -25,7 +25,8 @@
 	<!-- Style css -->
     <link href="{{URL::asset('backend/css/style.css')}}" rel="stylesheet">
 
-    <script src="{{URL::asset('backend/vendor/global/global.min.js')}}"></script>
+    <script src="{{URL::asset('backend/vendor/global/jquery.js')}}"></script>
+
 
     <style type="text/css">
     	.pointer {cursor: pointer;}
@@ -87,6 +88,21 @@
     		top: 20px;
     		right: 1rem;
     	}
+
+    	@media (min-width: 1200px) { 
+
+    		.card_min_width
+    	{
+    		min-width: 370px !important;
+    		max-width: 400px !important;
+    	}
+
+    	}
+
+
+
+    	
+
     	
     </style>
 	
@@ -153,7 +169,7 @@
                 <nav class="navbar navbar-expand">
                     <div class="collapse navbar-collapse justify-content-between">
                         <div class="header-left">
-							<div class="dashboard_bar">
+							<div class="dashboard_bar d-md-none d-lg-block">
                                 {{$pageName}} 
                             </div>
                         </div>

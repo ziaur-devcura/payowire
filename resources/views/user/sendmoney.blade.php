@@ -121,7 +121,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title">Send Money (Preview)</h5>
-                                                    <button onclick="close_sendmoney_preview(0)" type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    <button onclick="close_preview(0,'#sendmoneyPreview')" type="button" class="btn-close" data-bs-dismiss="modal">
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
@@ -141,7 +141,7 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button onclick="close_sendmoney_preview(0)" type="button" class="btn btn-danger light">Close</button>
+                                                    <button onclick="close_preview(0,'sendmoneyPreview')" type="button" class="btn btn-danger light">Close</button>
                                                     <button id="previewClick" type="button" class="btn btn-primary">Confirm</button>
                                                 </div>
                                             </div>

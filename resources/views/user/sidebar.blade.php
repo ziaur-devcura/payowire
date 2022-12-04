@@ -41,7 +41,7 @@
                     
                     </li>
 
-                    <li><a class="ai-icon" href="javascript:void()">
+                    <li><a class="ai-icon" href="{{route('user.cardlist')}}">
 							<i class="flaticon-086-star"></i>
 							<span class="nav-text">Card List</span>
 						</a>
