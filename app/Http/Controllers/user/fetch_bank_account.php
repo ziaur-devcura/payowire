@@ -8,30 +8,39 @@ use App\Models\user\BankAccount;
 
 class fetch_bank_account extends Controller
 {
-    public function get_bank_account(Request $request)
+    public function get_bank_account($bankid)
     {
 
-        $get_bank_id = $request->bid;
 
         $myid = parent::get_auth_user()->id;
 
-        $get_bank_details = BankAccount::where('id',$get_bank_id)->where('refer',$myid)->first();
+        $get_bank_details = BankAccount::where('id',$bankid)->where('refer',$myid)->first();
 
         if(empty($get_bank_details))
-            abort(503);
+            return redirect()->route('user.bank_account')
+                    ->with('error','We are unable to process your request at the moment.');
+
+                    if (preg_match_all('~\(\K[^()]*(?=\))~', $get_bank_details->cc_name, $matches)) {
+                            $bank_account = $matches[0];
+
+                             $cur_code = $bank_account[0];
+
+                            $bank_account = $cur_code.' Account';
 
 
-        return '
-                                    <div class="col-md-6 m-auto">
+                    }
 
-                                <div class="border border-primary rounded">
-                                    <div class="card-header border-0 pb-0">
-                                        <div>
-                                            <h4 class="card-title mb-2">Account Details ('.$get_bank_details->account.')</h4>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="card-list mt-4">
+                    else 
+                        {
+                            $bank_account = 'Bank Details';
+                            $cur_code = '';
+                        }
+
+
+
+                $usa_bank = '<div class="col-md-6 ms-3 mt-2 me-3">
+
+                               <ul class="card-list mt-4">
                                             <li>Bank name
                                                 <span>'.$get_bank_details->name.'
                                                 <i id="test" onclick="click_to_copy(this,\''.$get_bank_details->name.'\')" data-toggle="tooltip" data-placement="top" title="Click to copy" class="fa fa-copy pointer"></i>
@@ -50,10 +59,19 @@ class fetch_bank_account extends Controller
                                             <i id="test" onclick="click_to_copy(this,\''.$get_bank_details->beneficiary_name.'\')" data-toggle="tooltip" data-placement="top" title="Click to copy" class="fa fa-copy pointer"></i>
                                             </span></li>
                                         </ul>
-                                    </div>
-                                </div>
 
-                            </div>
+                            </div>';
+
+
+
+                    return parent::get_view('user/bankview','Bank Details | Payowire',$bank_account)
+                    ->with('bank_details',$get_bank_details)
+                    ->with('cur_code',$cur_code)
+                    ->with('bank_collaps',$usa_bank);
+
+
+        return '
+                                    
 
                              <div class="mt-3">
 

@@ -6,6 +6,9 @@
         <div class="content-body">
             <!-- row -->
 			<div class="container-fluid">
+
+                 @include('helper/header_notify')
+        
 			
 				<div class="row">
 
@@ -46,7 +49,8 @@
                                                     @if ($bank->status == '1')
 
                                                                         <div  class="col-6 col-md-4 col-lg-4 col-xl-2 justify-content-center mt-3 pointer">
-                        <div onclick="choose_bank(this,'{{$bank->id}}')" class="card bank">
+
+                        <div onclick="location.href = '{{route('user.bankview',$bank->id)}}';" class="card bank">
                             <div class="card-body">
                                 <div class="new-arrival-product">
                                     <div class="text-center">
@@ -131,7 +135,7 @@
 
          $.ajax({
         type: "POST",
-        url: "{{route('user.get_bank')}}",
+        url: "route",
         data: {_token: "{{ csrf_token() }}",
                 bid: bankid
 
@@ -154,22 +158,7 @@
     }
 
 
-    function click_to_copy(elm,value) {
 
-  // Copy the text inside the text field
-  navigator.clipboard.writeText(value);
-
-
-    elm.setAttribute("data-bs-original-title", "Copied!");
- 
-    let btn_tooltip = bootstrap.Tooltip.getInstance(elm);
- 
-    btn_tooltip.show();
-
-    elm.setAttribute("data-bs-original-title", "Click to copy");
-
-  
-}
 </script>
 
 

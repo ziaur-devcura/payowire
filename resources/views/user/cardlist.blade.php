@@ -7,20 +7,31 @@
             <!-- row -->
 			<div class="container-fluid">
 
+                @include('helper/header_notify')
+        
+
                 <div class="col-xl-12">
                                 <div class="card">
-                                    <div class="card-header d-sm-flex d-block border-0 pb-0">
-                                        <div class="me-auto mb-sm-0 mb-4">
-                                            <h4 class="fs-20 text-black">Your All Card</h4>
-                                            <span class="fs-12">Check and manage your card details, transaction</span>
+                                  
+                                    <div class="card-body pb-0">
+
+                                            <div class="d-flex flex-wrap align-items-center mb-5">
+
+                                                    <div class="me-auto">
+
+                                                    <h4 class="card-title">Your All Card</h4>
+                                                <span>Manage your card details, transaction</span>
+
+                                            </div>
+
+
+                                          @if (count($get_all_card)>0)
+                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#search_card_modal" class="btn btn-primary btn-rounded btn-md mx-3"><i class="flaticon-381-search-2"></i></a>
+                                        @endif
+                                                        
                                         </div>
 
-                                         @if (count($get_all_card)>0)
-                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#search_card_modal" class="btn btn-primary btn-rounded btn-md mx-3">Search</a>
-                                        @endif
-                                      
-                                    </div>
-                                    <div class="card-body pb-0">
+
 
                                          @if (count($get_all_card)>0)
 
@@ -28,7 +39,7 @@
 
 
                                         <div class="d-flex mb-3 border-bottom justify-content-between flex-wrap align-items-center">
-                                            <div class="d-flex pb-3 align-items-center">
+                                            <div class="d-flex pb-3 align-items-center col-md-2">
                                                 <img src="{{$card->bg_url}}" alt="" class="rounded me-3 card-list-img" width="130">
                                                 <div class="me-3">
                                                     <p class="fs-14 mb-1">Card Type</p>
@@ -47,7 +58,7 @@
                                                 <p class="fs-14 mb-1">Name in Card</p>
                                                 <span class="text-black font-w500">{{$userData->name}}</span>
                                             </div>
-                                            <a href="javascript:void(0);" class="fs-14 btn-link me-3 pb-3">See Details</a>
+                                            <a href="{{route('user.cardview',$card->id)}}" class="fs-14 btn-link me-3 pb-3">See Details</a>
                                             <div class="dropdown pb-3">
                                                 <a href="javascript:void(0);" class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

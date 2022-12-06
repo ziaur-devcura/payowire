@@ -27,6 +27,10 @@
 
     <script src="{{URL::asset('backend/vendor/global/jquery.js')}}"></script>
 
+      <!-- Chart ChartJS plugin files -->
+    <script src="{{URL::asset('backend/vendor/chart.js/Chart.bundle.min.js')}}"></script>
+    
+
 
     <style type="text/css">
     	.pointer {cursor: pointer;}
@@ -97,7 +101,50 @@
     		max-width: 400px !important;
     	}
 
+        .cardview_chart
+        {
+            margin-bottom: 22% !important;
+        }
+
     	}
+
+    	.back-icon {
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    border-radius: 18px;
+    text-align: center;
+    background: #EAEAEA;
+    color: #4F7086;
+    font-size: 32px;
+    margin-right: 18px;
+		}
+
+
+	.collapsed .view-bank-indicator:before {
+    content: "\f0da";
+    color: #d3d6e4;
+	}
+
+	.view-bank-indicator:before {
+    content: "\f0d7";
+    font-family: 'font Awesome 5 Free';
+    font-size: 20px;
+    color: #d3d6e4;
+    font-weight: 900;
+	}
+
+	.view-bank-indicator {
+
+
+	font-family: 'themify';
+    position: absolute;
+    right: 1.5625rem;
+    top: 50%;
+    transform: translateY(-50%);
+		}
+
+
 
 
 
@@ -169,6 +216,7 @@
                 <nav class="navbar navbar-expand">
                     <div class="collapse navbar-collapse justify-content-between">
                         <div class="header-left">
+
 							<div class="dashboard_bar d-md-none d-lg-block">
                                 {{$pageName}} 
                             </div>
@@ -184,8 +232,20 @@
                         </ul>
                     </div>
 				</nav>
+
+
+
+
+
+
+                                   
+
+
 			</div>
+
+				
 		</div>
+
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->

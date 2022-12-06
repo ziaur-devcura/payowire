@@ -26,15 +26,7 @@
 	<script src="{{URL::asset('backend/vendor/chart.js/Chart.bundle.min.js')}}"></script>
 	<script src="{{URL::asset('backend/vendor/jquery-nice-select/js/jquery.nice-select.min.js')}}"></script>
 	
-	<!-- Apex Chart -->
-	<script src="{{URL::asset('backend/vendor/apexchart/apexchart.js')}}"></script>
-	<script src="{{URL::asset('backend/vendor/nouislider/nouislider.min.js')}}"></script>
-	<script src="{{URL::asset('backend/vendor/wnumb/wNumb.js')}}"></script>
-
-	<!-- Chart Morris plugin files -->
-    <script src="{{URL::asset('backend/vendor/raphael/raphael.min.js')}}"></script>
-    <script src="{{URL::asset('backend/vendor/morris/morris.min.js')}}"></script>
-    <script src="{{URL::asset('backend/js/plugins-init/morris-init.js')}}"></script>
+   
 	
 	<!-- Dashboard 1 -->
 	<script src="{{URL::asset('backend/js/dashboard/dashboard-1.js')}}"></script>

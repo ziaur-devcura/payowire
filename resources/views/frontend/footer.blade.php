@@ -101,7 +101,6 @@ Sheridan, WY 82801, US
         </div>
 
         <!-- Links of JS files -->
-        <script src="{{URL::asset('frontend/assets/js/jquery.min.js')}}"></script>
         <script src="{{URL::asset('frontend/assets/js/bootstrap.bundle.min.js')}}"></script>
         <script src="{{URL::asset('frontend/assets/js/meanmenu.js')}}"></script>
         <script src="{{URL::asset('frontend/assets/js/nice-select.min.js')}}"></script>

@@ -226,6 +226,65 @@ class Controller extends BaseController
     }
 
 
+
+         public function card_transaction_karta_api($cardid)
+    {
+
+        if($this->update_token())
+        {
+
+            $gateway = $this->get_karta_gateway();
+
+
+        $url = 'https://api.karta.io/api/public/v1/transaction/?card_id='.$cardid;
+
+         $headers = array(
+        'Content-type: application/json',
+        'accept: application/json',
+        'Authorization: Bearer '.$gateway['access_token'].''
+            );
+
+        $response = $this->call_curl($url,$headers,'GET','');
+
+        return $response;
+
+        }
+        else
+            return null;
+
+    }
+
+
+        public function fetch_visa_card_data_karta_api($cardid)
+    {
+
+        if($this->update_token())
+        {
+
+            $gateway = $this->get_karta_gateway();
+
+
+        $url = 'https://api.karta.io/api/public/v1/card/'.$cardid.'/';
+
+         $headers = array(
+        'Content-type: application/json',
+        'accept: application/json',
+        'Authorization: Bearer '.$gateway['access_token'].''
+            );
+
+        $response = $this->call_curl($url,$headers,'GET','');
+
+        return $response;
+
+        }
+        else
+            return null;
+
+    }
+
+
+
+
          public function get_visa_card_karta_api($cardid,$data)
     {
 

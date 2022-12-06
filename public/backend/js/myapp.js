@@ -117,3 +117,21 @@
                                             $('#master_PackMsg').html('<p class="text-info">Lifetime Unlimited Transaction</p>');
 
                                     }
+
+
+                                       function click_to_copy(elm,value) {
+
+  // Copy the text inside the text field
+  navigator.clipboard.writeText(value);
+
+
+    elm.setAttribute("data-bs-original-title", "Copied!");
+ 
+    let btn_tooltip = bootstrap.Tooltip.getInstance(elm);
+ 
+    btn_tooltip.show();
+
+    elm.setAttribute("data-bs-original-title", "Click to copy");
+
+  
+}

@@ -748,6 +748,7 @@
 					maintainAspectRatio: false
 				}
 			});
+
 		}
 	}
 	var polarChart = function(){
