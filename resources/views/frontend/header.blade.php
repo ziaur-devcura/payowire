@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="{{URL::asset('frontend/assets/css/responsive.css')}}">
         <link rel="stylesheet" href="{{URL::asset('frontend/assets/css/dark-style.css')}}">
         <script src="{{URL::asset('frontend/assets/js/jquery.min.js')}}"></script>
+        <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=4dccc130"></script>
 
         <title>Payowire - Login</title>
 

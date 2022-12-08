@@ -7,6 +7,8 @@
             <!-- row -->
 			<div class="container-fluid">
 
+                 
+
                    <div class="col-xl-12 col-xxl-12">
                         <div class="card">
                             <div class="card-body">
@@ -21,7 +23,7 @@
 
                                                     <div class="me-auto">
 
-                                                    <h4 class="card-title">{{$card->brand}} {!!$card->package!!}</h4>
+                                                    <h4 class="card-title d-flex align-items-center">{{$card->brand}} {!!$card->package!!}</h4>
                                                 <span>Manage your virtual card here.</span>
 
                                             </div>
@@ -34,14 +36,13 @@
                                                 
                                                     <div class="row justify-content-center">
 
-                                                     
                                                         <div class="col-12 col-md-12  col-xl-6 justify-content-center m-auto mt-0 me-0">
 
                                                              <div class="col-11 col-md-6 col-lg-8 col-xl-10 m-auto">
 
                                                                  <div class="ms-auto card_min_width text-center mb-3">
 
-                                                                <h5>Status: <span class="badge light badge-success justify-content-center">{{$card->status}}</span></h5>
+                                                                <h5>Status: {!!$card->status!!}</h5>
 
                                                                 
                                                             </div>
@@ -91,12 +92,15 @@
                                                             </div>
 
 
-                                                            <div class="ms-auto card_min_width text-center mb-3 mt-3">
+                                                            <div class="ms-auto card_min_width text-center mb-4 mt-4">
 
                                                                 <div class="btn-group ">
-                                    <button data-toggle="tooltip" data-placement="top" title="Top-up fund" type="button" class="btn light btn-secondary"><i class="fa fa-plus"></i></button>
+                                    <button data-toggle="tooltip" data-placement="top" title="Top-up fund" type="button" class="btn light btn-secondary" data-bs-toggle="modal" data-bs-target="#add_fund_modal"><i class="fa fa-plus"></i></button>
+
                                     <button data-toggle="tooltip" data-placement="top" title="Withdraw fund" type="button" class="btn light btn-secondary"><i class="fa fa-arrow-up"></i></button>
-                                    <button data-toggle="tooltip" data-placement="top" title="Freeze card" type="button" class="btn light btn-secondary"><i class="fa fa-snowflake"></i></button>
+
+                                    <button href="{{route('user.update_card.status',$card->id)}}?status={{$card->status_code}}" data-toggle="tooltip" data-placement="top" title="{{$card->status_toollip}}" type="button" class="btn light btn-secondary"><i class="fa fa-snowflake"></i></button>
+
                                     <button data-toggle="tooltip" data-placement="top" title="Get statement" type="button" class="btn light btn-secondary"><i class="fa fa-file-alt"></i></button>
                                 </div>
                                     
@@ -119,7 +123,7 @@
 
                                                              <div class="col-11 col-md-6 col-lg-8 col-xl-10 m-auto">
 
-                                                                 <div class="chart-point m-auto ms-xl-0 col cardview_chart">
+                                                                 <div class="chart-point m-auto ms-xl-0 col cardview_chart justify-content-center justify-content-xl-start">
                                             <div class="check-point-area">
                                                 <canvas id="viewcard_chart"></canvas>
                                             </div>
@@ -189,7 +193,7 @@
                                  
 
 
-                                <div class="table-responsive">
+                                <div class="table-responsive mt-3">
                                     <table class="table header-border table-responsive-sm">
                                         <thead>
                                             <tr>
@@ -249,6 +253,51 @@
         <!--**********************************
             Content body end
         ***********************************-->
+
+
+        <!-- Add Fund -->
+                                    <div class="modal fade " data-bs-backdrop="static" data-bs-keyboard="false" id="add_fund_modal">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Top-up card</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <form id="addfundForm" method="POST" action="{{route('user.update_card.addfund',$card->id)}}">
+
+                                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+
+                                                       <div class="mb-3 row">
+
+                                                            <label>Amount</label>
+
+                                                            <input type="text" name="cardAmount" class="form-control amount" placeholder="Enter amount">
+                                                   
+                                                        </div>
+
+
+
+                                        <div id="addfundMsg" class="mb-3 text-center">
+                                        </div>
+
+                                        </form>
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button data-bs-dismiss="modal" type="button" class="btn btn-danger light">Close</button>
+                                                    <button id="addfundClick" type="button" class="btn btn-primary">Request Now</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                      @include('helper/basic_form_submit',['click' => 'addfundClick','formid'=>'addfundForm','msg'=>'addfundMsg'])
+
 
 
 		

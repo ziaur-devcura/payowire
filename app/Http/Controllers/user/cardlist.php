@@ -4,6 +4,7 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\user\card_add_fund;
 
 class cardlist extends Controller
 {
@@ -47,6 +48,8 @@ class cardlist extends Controller
         ->with('get_all_card',$get_all_card);
     }
 
+
+
     public function viewCardDetails($id)
     {
 
@@ -79,6 +82,8 @@ class cardlist extends Controller
 
         $card->balance = parent::fetch_balance(parent::unpack_balance($card_limit[0]->value) - parent::unpack_balance($card_limit[0]->spend));
 
+        $card->status_code = $response->status;
+
         $card->status = $response->status;
 
 
@@ -92,12 +97,26 @@ class cardlist extends Controller
         else if($card->type == 2)
             $card->brand = 'Master Card';
 
+
+        //card status 
+
+        if($card->status == 'ACTIVE')
+        {
+            $card->status = '<span class="badge light badge-success justify-content-center">ACTIVE</span>';
+            $card->status_toollip = 'Freeze card';
+        }
+        else if($card->status == 'PAUSED')
+        {
+            $card->status = '<span class="badge light badge-warning justify-content-center">PAUSED</span>';
+            $card->status_toollip = 'Unfreeze card';
+        }
+
         //
 
         if($card->package == 1)
-            $card->package = '<span class="badge badge-sm badge-info pb-1">Debit</span>';
+            $card->package = '<span class="badge badge-sm badge-info pb-1 ms-2">Debit</span>';
         else if($card->package == 2)
-            $card->package = '<span class="badge badge-sm badge-info pb-1">Business Debit</span>';
+            $card->package = '<span class="badge badge-sm badge-info pb-1 ms-2">Business Debit</span>';
 
         $card->number =  wordwrap($card->card_number , 4 , ' ' , true);
 
@@ -142,4 +161,154 @@ class cardlist extends Controller
 
 
     }
+
+
+
+    public function update_card($cardid, card_add_fund $request)
+    {
+
+        $status = $request->status;
+        $cardAmount = $request->cardAmount;
+
+        $user = parent::get_auth_user();
+
+
+        $card = parent::get_card_table()->where('id',$cardid)->where('refer',$user->id)->first();
+
+        if(!isset($card->id))
+            return redirect()->route('user.cardview',$cardid)
+                    ->with('error','We are unable to process your request at the moment. Try again later.');
+
+
+     // ######### UPDATE CARD STATUS ##################
+
+
+        if(isset($status))
+        {
+
+        if($status == 'ACTIVE')
+            $update_status = 'PAUSED';
+        else if($status == 'PAUSED')
+            $update_status = 'ACTIVE';
+        else
+            return redirect()->route('user.cardview',$cardid)
+                    ->with('terror','We are unable to process your request at the moment. Try again later.');
+
+        // update card
+
+        $response = parent::update_card_karta_api($card->sid,$update_status,$cardAmount);
+        $response= json_decode($response);
+
+
+        if(isset($response->status))
+            return redirect()->route('user.cardview',$cardid)
+                    ->with('tsuccess','Your card was updated successfully!');
+
+        else
+            return redirect()->route('user.cardview',$cardid)
+                    ->with('terror','We are unable to update your card at the moment. Try again later.');
+
+        }
+
+
+        // ######### UPDATE CARD BALANCE ##################
+
+        else if(isset($cardAmount))
+        {
+            if($cardAmount<0 || !is_numeric($cardAmount) || !preg_match('/^[0-9]+(\\.[0-9]+)?$/', $cardAmount))
+            return parent::get_error_msg('Please enter a valid usd amount!');
+
+            $card_pack = $card->package;
+
+            $remaining_limit = $card->load_amount;
+
+
+            $now_card_load = parent::unpack_balance($cardAmount);
+
+            $remaining_limit = parent::unpack_balance(5000) - $remaining_limit;
+
+            if($remaining_limit<0)
+                return parent::get_error_msg('Your card has reach top-up limit!');
+
+
+            if($card_pack == 1 && $now_card_load>$remaining_limit)
+                    return parent::get_error_msg('Card amount exceeding the spending limit');
+
+
+            $my_balance = parent::unpack_balance($user->balance);
+
+            if($now_card_load>$my_balance)
+                return parent::get_error_msg('You do not have sufficient funds to make this request!');
+
+
+            // adjust balance
+
+
+                    $adjust_balance = parent::adjust_balance($user->id,2,$now_card_load);
+
+                    if($adjust_balance == 1)
+                    {
+
+                        $adjust_card_load = parent::adjust_card_load($cardid,1,$now_card_load);
+
+
+
+                                   //card info
+
+        $response = parent::fetch_visa_card_data_karta_api($card->sid);
+        $response= json_decode($response);
+
+        if(!isset($response->id))
+        {
+            parent::adjust_balance($user->id,1,$now_card_load);
+            return parent::get_error_msg('We are unable to process your request at the moment.Try again later');
+        }
+
+
+        $card_limit = $response->limits;
+
+        //$currenct_card_balance = parent::unpack_balance($card_limit[0]->value) - parent::unpack_balance($card_limit[0]->spend);
+
+        $total_card_limit = parent::fetch_balance(parent::unpack_balance($card_limit[0]->value) + $now_card_load);
+
+
+                        // update card limit
+
+
+                 $response = parent::update_card_karta_api($card->sid,'',$total_card_limit);
+                 $response= json_decode($response);
+                
+                 if(isset($response->limits))
+                    return parent::get_success_msg('The fund has been added to your card successfully!').'<script>
+                                                            document.getElementById("addfundForm").reset();
+                                                            location.reload();
+                                                            </script>';
+           
+
+        else 
+        {
+            parent::adjust_balance($user->id,1,$now_card_load);
+            parent::adjust_card_load($cardid,2,$now_card_load);
+
+            return parent::get_error_msg('We are unable to process your request at the moment.Try again later.');
+        }
+
+
+
+
+
+                    }
+
+
+
+
+
+
+
+        }
+
+
+    }
+
+
 }

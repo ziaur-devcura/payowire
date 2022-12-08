@@ -60,6 +60,9 @@ Route::post('/user/bankAccount/get_bank', [bank_account::class,'request_bank'])-
 Route::post('/user/sendmoney/send', [sendmoney::class,'sendmoneyDo'])->middleware('userAuth','XssProtection')->name('user.sendmoneydo');
 Route::post('/user/createCard/createVisaCard', [create_card::class,'craete_visa_card'])->middleware('userAuth','XssProtection')->name('user.new_visa_card');
 Route::post('/user/createCard/createMasterCard', [create_card::class,'craete_master_card'])->middleware('userAuth','XssProtection')->name('user.new_master_card');
+Route::get('/user/cardlist/freeze/{id}', [cardlist::class,'update_card'])->middleware('userAuth')->name('user.update_card.status');
+Route::post('/user/cardlist/add_fund/{id}', [cardlist::class,'update_card'])->middleware('userAuth')->name('user.update_card.addfund');
+
 
 
 

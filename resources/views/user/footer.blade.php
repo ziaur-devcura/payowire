@@ -45,6 +45,8 @@
      <!-- My app js -->
     <script src="{{URL::asset('backend/js/myapp.js')}}"></script>
 
+    @include('helper/header_toast')
+
 
 
 	

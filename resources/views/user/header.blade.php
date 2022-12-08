@@ -29,6 +29,8 @@
 
       <!-- Chart ChartJS plugin files -->
     <script src="{{URL::asset('backend/vendor/chart.js/Chart.bundle.min.js')}}"></script>
+
+    <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=4dccc130"></script>
     
 
 
@@ -103,7 +105,7 @@
 
         .cardview_chart
         {
-            margin-bottom: 22% !important;
+            margin-bottom: 30% !important;
         }
 
     	}

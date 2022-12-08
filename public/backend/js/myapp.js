@@ -135,3 +135,9 @@
 
   
 }
+
+
+function close_tooltip()
+{
+     $('[data-toggle="tooltip"]').tooltip("hide");
+}

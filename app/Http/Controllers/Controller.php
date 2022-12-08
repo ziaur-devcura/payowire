@@ -179,6 +179,52 @@ class Controller extends BaseController
     }
 
 
+    public function adjust_balance($userid,$type,$amount)
+    {
+            $userTable = $this->get_mod_User()->where('id',$userid);
+            $userTableData = $userTable->first();
+
+            $my_balance = $userTableData->balance;
+
+            if($type==1)
+                $adjust_balance = $my_balance + $amount;
+            else if($type==2)
+                $adjust_balance = $my_balance - $amount;
+
+            $balance_adj_query = tap($userTable)->update(['balance' => $adjust_balance])->first();
+
+            if($adjust_balance == $balance_adj_query->balance)
+                return 1;
+            else
+                return 0;
+
+
+    }
+
+
+    public function adjust_card_load($cardid,$type,$amount)
+    {
+            $cardTable = $this->get_card_table()->where('id',$cardid);
+            $cardTableData = $cardTable->first();
+
+            $my_balance = $cardTableData->load_amount;
+
+            if($type==1)
+                $adjust_balance = $my_balance + $amount;
+            else if($type==2)
+                $adjust_balance = $my_balance - $amount;
+
+            $balance_adj_query = tap($cardTable)->update(['load_amount' => $adjust_balance])->first();
+
+            if($adjust_balance == $balance_adj_query->load_amount)
+                return 1;
+            else
+                return 0;
+
+
+    }
+
+
     public function call_curl($url,$header="",$method='POST',$data="")
     {
 
@@ -273,6 +319,42 @@ class Controller extends BaseController
             );
 
         $response = $this->call_curl($url,$headers,'GET','');
+
+        return $response;
+
+        }
+        else
+            return null;
+
+    }
+
+
+         public function update_card_karta_api($cardid,$status,$cardAmount)
+    {
+
+        if($this->update_token())
+        {
+
+            $gateway = $this->get_karta_gateway();
+
+
+        $url = 'https://api.karta.io/api/public/v1/card/'.$cardid.'/';
+
+         $headers = array(
+        'Content-type: application/json',
+        'accept: application/json',
+        'Authorization: Bearer '.$gateway['access_token'].''
+            );
+
+         if(isset($status) && !empty($status))
+         $data['status'] = $status;
+
+        if(isset($cardAmount) && !empty($cardAmount))
+               $data['limits'] = [array('type'=> 'LIFETIME_LIMIT', 'value' => $cardAmount)];
+
+        
+
+        $response = $this->call_curl($url,$headers,'PATCH',$data);
 
         return $response;
 

@@ -1,4 +1,4 @@
-  <div class="mb-3 mb-0 text-center col-md-6 m-auto">
+<div class="mb-3 mb-0 text-center col-md-6 m-auto">
 
                                              @if(session('error'))
 
