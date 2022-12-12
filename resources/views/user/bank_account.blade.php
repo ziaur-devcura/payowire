@@ -32,7 +32,11 @@
                                             </div>
 
 
+                                            @if (count($all_bank_country)>0)
+
                                            <button onclick="clear_bank_req();" data-bs-toggle="modal" data-bs-target="#get_bank_model" type="button" class="btn btn-primary">Get Bank</button>
+
+                                           @endif
 
                                                         
                                         </div>
@@ -248,42 +252,7 @@
                                         </div>
                                     </div>
 
-                                <script type="text/javascript">
-
-                                    function check_bank_req(elm)
-                                    {
-
-                                        var close = $(elm).html();
-
-                                        if(close == 'Cancel')
-                                        {
-                                            $('#req_bank_confirm').remove();
-                                            $("#req_bank_select").removeClass("d-none");
-                                            $(elm).html('Close');
-                                            $('#reqMsg').html('');
-
-
-                                        }
-                                        else
-                                             $('#get_bank_model').modal('hide');
-
-
-
-                                    }
-
-
-                                    function clear_bank_req()
-                                    {
-                                        $('#reqMsg').html('');
-
-                                         if($('#req_bank_confirm').length)
-                                            $('#req_bank_confirm').remove();
-
-                                        $('#reqBankCloseBtn').html('Close');
-
-                                    }
-                                    
-                                </script>
+                            
 
                                     @include('helper/basic_form_submit',['click' => 'reqBankclick','formid'=>'reqBankForm','msg'=>'reqMsg'])
 

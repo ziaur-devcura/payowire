@@ -25,6 +25,10 @@
     <script src="{{URL::asset('backend/vendor/global/global.min.js')}}"></script>
 	<script src="{{URL::asset('backend/vendor/chart.js/Chart.bundle.min.js')}}"></script>
 	<script src="{{URL::asset('backend/vendor/jquery-nice-select/js/jquery.nice-select.min.js')}}"></script>
+
+          <!--  Select2 Js -->
+        <script src="{{ URL::asset('backend/vendor/select2/js/select2.min.js') }}"></script>
+
 	
    
 	
@@ -46,6 +50,8 @@
     <script src="{{URL::asset('backend/js/myapp.js')}}"></script>
 
     @include('helper/header_toast')
+
+    
 
 
 

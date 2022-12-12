@@ -22,8 +22,13 @@
 	<!-- Toastr -->
     <link rel="stylesheet" href="{{URL::asset('backend/vendor/toastr/css/toastr.min.css')}}">
 
+      <!-- Select2 css -->
+    <link href="{{ URL::asset('backend/vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+
+
 	<!-- Style css -->
     <link href="{{URL::asset('backend/css/style.css')}}" rel="stylesheet">
+
 
     <script src="{{URL::asset('backend/vendor/global/jquery.js')}}"></script>
 
@@ -147,12 +152,16 @@
 		}
 
 
+        .btn_no_focus
+        {
+            outline: none !important;
+            box-shadow: none !important;
+        }
 
 
 
-    	
 
-    	
+
     </style>
 	
 </head>

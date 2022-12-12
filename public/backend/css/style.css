@@ -21463,13 +21463,25 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       margin-right: 0; }
 
 .select2-container {
+  padding: 0px !important;
   width: 100% !important; }
 
 .select2-container--default .select2-selection--single {
-  border-radius: 1.75rem;
+  /*border-radius: 1.75rem;
   border: 0.0625rem solid #c8c8c8;
   height: 2.5rem;
-  background: #fff; }
+  background: #fff; */
+
+  line-height: 2.6rem;
+  background: #fff;
+    border: 0.0625rem solid #f5f5f5;
+    padding: 0.3125rem 1.25rem;
+    color: #6e6e6e;
+    height: 3.5rem;
+    border-radius: 0.5rem;
+
+
+}
   [data-theme-version="dark"] .select2-container--default .select2-selection--single {
     background: #171622;
     border-color: #2e2e42; }
@@ -21514,7 +21526,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   border-color: #2e2e42; }
 
 .select2-dropdown {
-  border-color: #c8c8c8; }
+  border-color: #e3e3e3; 
+}
   [data-theme-version="dark"] .select2-dropdown {
     background: #171622;
     border-color: #2e2e42; }

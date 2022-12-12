@@ -9,7 +9,7 @@
 						<a class="nav-link" href="javascript:void(0);" role="button">
 							<img src="{{URL::asset('backend/images/profile/pic1.jpg')}}" width="20" alt=""/>
 							<div class="header-info ms-3">
-								<span class="font-w600 ">Hi,<b>{{ explode(" ",$userData->name)[0] }}</b></span>
+								<span class="font-w600 "><b>{{ explode(" ",$userData->name)[0] }}</b></span>
 								<small class="text-left font-w400 text-break">{{ $userData->email }}</small>
 							</div>
 						</a>
@@ -65,7 +65,7 @@
 						</a>
 					</li>
                   
-                    <li><a class="ai-icon" href="javascript:void()">
+                    <li><a class="ai-icon" href="{{route('user.transaction')}}">
 							<i class="flaticon-043-menu"></i>
 							<span class="nav-text">Transaction</span>
 						</a>

@@ -30,7 +30,7 @@
 
                                             <script>
                                                        toastr.success("{{ session('tsuccess') }}", "Success!", {
-                    timeOut: 500000000,
+                    timeOut: 5e3,
                     closeButton: !0,
                     debug: !1,
                     newestOnTop: !0,

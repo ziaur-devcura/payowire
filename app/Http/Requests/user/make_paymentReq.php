@@ -5,7 +5,7 @@ namespace App\Http\Requests\user;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class card_add_fund extends FormRequest
+class make_paymentReq extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,19 +25,20 @@ class card_add_fund extends FormRequest
      */
     public function rules()
     {
-        return [
-            'cardAmount' => 'sometimes|required|numeric|min:5',
-            'cardAmountw' => 'sometimes|required|numeric|min:5'
+         return [
+            'bank_type' => 'required|numeric|between:1,2',
+            'bank_country' => 'required'
         ];
     }
 
-     public function messages()
+
+      public function messages()
     {
          return [
-            'cardAmount.numeric' => 'Please enter a valid USD amount',
-            'cardAmount.min' => 'Card amount should be minimum 5 USD',
-            'cardAmountw.numeric' => 'Please enter a valid USD amount',
-            'cardAmountw.min' => 'Withdraw amount should be minimum 5 USD'
+            'bank_type.required' => 'Please choose bank type',
+            'bank_type.numeric' => 'Sorry, something went wrong. Try again later.',
+            'bank_type.between' => 'Please choose bank type',
+            'bank_country.required' => 'Please choose bank country'
         ];
     }
 }

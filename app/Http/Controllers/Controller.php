@@ -12,6 +12,7 @@ use App\Models\user\BankAccount;
 use App\Models\User;
 use App\Models\cardModel;
 use App\Models\gatewayModel;
+use App\Models\transactionModel;
 
 class Controller extends BaseController
 {
@@ -26,6 +27,7 @@ class Controller extends BaseController
     private $return_card_table;
     private $return_gateway_table;
     private $return_karta_gateway;
+    private $return_transaction_table;
 
     public function get_setting()
     {
@@ -79,6 +81,114 @@ class Controller extends BaseController
 
     }
 
+
+      public function get_transaction_table()
+    {
+
+        if($this->return_transaction_table == null)
+            $this->return_transaction_table = new transactionModel();
+
+        return $this->return_transaction_table;
+
+    }
+
+
+    // transaction type 
+     public function transaction_type($type)
+     {
+        $output = null;
+
+        switch ($type) {
+            case '1':
+            $output = 'Bank Account';
+                break;
+
+            case '2':
+            $output = 'Add Fund';
+                break;
+
+            case '3':
+            $output = 'New Card';
+                break;
+
+            case '4':
+            $output = 'Card Load';
+                break;
+
+            case '5':
+            $output = 'Card Withdraw';
+                break;
+
+            case '6':
+            $output = 'Send Money';
+                break;
+
+            case '7':
+            $output = 'Payment';
+                break;
+
+            case '8':
+            $output = 'Airtime';
+                break;
+
+            case '9':
+            $output = 'Receive Money';
+                break;
+
+            default:
+                null;
+                break;
+        }
+
+        return $output;
+     }
+
+
+     // transaction status 
+
+     public function transaction_status($status)
+     {
+        $output = null;
+
+        switch ($status) {
+            case '1':
+                $output = '<span class="text-success fs-16 font-w500  d-block">Completed</span>';
+                break;
+            case '2':
+                $output = '<span class="text-warning fs-16 font-w500  d-block">Pending</span>';
+                break;
+            case '3':
+                $output = '<span class="text-danger fs-16 font-w500  d-block">Failed</span>';
+                break;
+            
+            default:
+                null;
+                break;
+        }
+
+        return $output;
+     }
+
+
+     // transaction insert
+
+     public function insert_transaction($type,$amount,$prev_bal,$next_bal,$status,$refer)
+     {
+        $transaction_table = $this->get_transaction_table();
+
+        return $transaction_table->create([
+                'type'=> $type, 
+                'amount'=>$amount,
+                'prev_balance'=>$prev_bal,
+                'next_balance' => $next_bal,
+                'status' => $status,
+                'refer' => $refer
+            ]);;
+
+     }
+
+    
+
     public function get_auth_user()
     {
 
@@ -129,6 +239,41 @@ class Controller extends BaseController
         return array("us"=>"USA (USD)","hk"=>"Hongkong (HKD/EUR)","gb"=>"UK (GBP)","jp"=>"Japan (JPY)","ca"=>"Canada (CAD)","au"=>"Australia (AUD)","sg"=>"Singapore (SGD)","ee"=>"Estonia (EUR)","nz"=>"New Zealand (NZD)");
     }
 
+    // all payment country
+
+    public function get_payment_country_list()
+    {
+              return array("United State"=>"United State","Austria"=>"Austria","Belgium"=>"Belgium","Bangladesh"=>"Bangladesh","Uruguey"=>"Uruguey","United Kingdom"=>"United Kingdom","Vietnum"=>"Vietnum","Turkey"=>"Turkey","Thailand"=>"Thailand","Chile"=>"Chile","Canada"=>"Canada","Bulgaria"=>"Bulgaria","Brazil"=>"Brazil","Croatia"=>"Croatia","Cyprus"=>"Cyprus","Czech republic"=>"Czech republic","Denmark"=>"Denmark","Egypt"=>"Egypt","Estonia"=>"Estonia","Finland"=>"Finland","France"=>"France","Germany"=>"Germany","Greece"=>"Greece","Hong kong"=>"Hong kong","Hungry"=>"Hungry","Iceland"=>"Iceland","India"=>"India","Indonesia"=>"Indonesia","Ireland"=>"Ireland","Japan"=>"Japan","Italy"=>"Italy","Korea"=>"Korea","Lativa"=>"Lativa","Liechtenstein"=>"Liechtenstein","Lithnia"=>"Lithnia","Luxembourg"=>"Luxembourg","Malaysia"=>"Malaysia","Malta"=>"Malta","Martinique"=>"Martinique","Mayotte"=>"Mayotte","Mexico"=>"Mexico","Monaco"=>"Monaco","Nepal"=>"Nepal","Netherlands"=>"Netherlands","Newzeland"=>"Newzeland","Norway"=>"Norway","Pakistan"=>"Pakistan","Peru"=>"Peru","Philippines"=>"Philippines","Poland"=>"Poland","Portugal"=>"Portugal","Romania"=>"Romania","Saint Pierre and Miquelon"=>"Saint Pierre and Miquelon","Singapore"=>"Singapore","Slovakia"=>"Slovakia","Spain"=>"Spain","Srilanka"=>"Srilanka","Sween"=>"Sween");
+    }
+
+
+    // sepa payment country
+
+
+    public function sepa_payment_country()
+    {
+
+        return array("Austria"=>"Austria","Belgium"=>"Belgium","Uruguey"=>"Uruguey","United Kingdom"=>"United Kingdom","Vietnum"=>"Vietnum","Turkey"=>"Turkey","Thailand"=>"Thailand","Chile"=>"Chile","Canada"=>"Canada","Bulgaria"=>"Bulgaria","Brazil"=>"Brazil","Croatia"=>"Croatia","Cyprus"=>"Cyprus","Czech republic"=>"Czech republic","Denmark"=>"Denmark","Egypt"=>"Egypt","Estonia"=>"Estonia","Finland"=>"Finland","France"=>"France","Germany"=>"Germany","Greece"=>"Greece","Hong kong"=>"Hong kong","Hungry"=>"Hungry","Iceland"=>"Iceland","India"=>"India","Indonesia"=>"Indonesia","Ireland"=>"Ireland","Japan"=>"Japan","Italy"=>"Italy","Korea"=>"Korea","Lativa"=>"Lativa","Liechtenstein"=>"Liechtenstein","Lithnia"=>"Lithnia","Luxembourg"=>"Luxembourg","Malaysia"=>"Malaysia","Malta"=>"Malta","Martinique"=>"Martinique","Mayotte"=>"Mayotte","Mexico"=>"Mexico","Monaco"=>"Monaco","Nepal"=>"Nepal","Netherlands"=>"Netherlands","Newzeland"=>"Newzeland","Norway"=>"Norway","Pakistan"=>"Pakistan","Peru"=>"Peru","Philippines"=>"Philippines","Poland"=>"Poland","Portugal"=>"Portugal","Romania"=>"Romania","Saint Pierre and Miquelon"=>"Saint Pierre and Miquelon","Singapore"=>"Singapore","Slovakia"=>"Slovakia","Spain"=>"Spain","Srilanka"=>"Srilanka","Sween"=>"Sween");
+
+    }
+
+    //normal payment country
+
+    public function nomral_payment_country()
+    {
+
+        return array("Bangladesh"=>"Bangladesh","United State"=>"United State");
+
+    }
+
+
+    // payment_get_all_ccode
+
+    public function get_payment_country_code()
+    {
+        return array("Andorra"=>"AD","United Arab Emirates"=>"AE","Antigua and Barbuda"=>"AG","Anguilla"=>"AI","Albania"=>"AL","Armenia"=>"AM","Netherlands Antilles"=>"AN","Angola"=>"AO","Argentina"=>"AR","Austria"=>"AT","Australia"=>"AU","Aruba"=>"AW","Azerbaijan"=>"AZ","Bosnia and Herzegovina"=>"BA","Bangladesh"=>"BD","Belgium"=>"BE","Bulgaria"=>"BG","Bahrain"=>"BH","Saint Barthélemy"=>"BL","Bolivia (Plurinational State of)"=>"BO","Brazil"=>"BR","Belarus"=>"BY","Belize"=>"BZ","Canada"=>"CA","Switzerland"=>"CH","Chile"=>"CL","China"=>"CN","Colombia"=>"CO","Costa Rica"=>"CR","Curaçao"=>"CW","Cyprus"=>"CY","Czech Republic"=>"CZ","Germany"=>"DE","Denmark"=>"DK","Dominica"=>"DM","Dominican Republic"=>"DO","Algeria"=>"DZ","Ecuador"=>"EC","Estonia"=>"EE","Egypt"=>"EG","Spain"=>"ES","Finland"=>"FI","Fiji"=>"FJ","France"=>"FR","Faroe Islands"=>"FO","United Kingdom"=>"GB","Grenada"=>"GD","Georgia"=>"GE","French Guiana"=>"GF","Guernsey"=>"GG","Gibraltar"=>"GI","Greenland"=>"GL","Equatorial Guinea"=>"GQ","Greece"=>"GR","Guatemala"=>"GT","Guyana"=>"GY","Hong Kong SAR"=>"HK","Honduras"=>"HN","Croatia"=>"HR","Hungary"=>"HU","Canary Islands"=>"IC","Indonesia"=>"ID","Ireland"=>"IE","Israel"=>"IL","Isle of Man"=>"IM","India"=>"IN","Iceland"=>"IS","Italy"=>"IT","Jersey"=>"JE","Jamaica"=>"JM","Jordan"=>"JO","Japan"=>"JP","Kenya"=>"KE","Kyrgyzstan"=>"KG","Cambodia"=>"KH","Korea"=>"KR","Kazakhstan"=>"KZ","Kuwait"=>"KW","Saint Lucia"=>"LC","Liechtenstein"=>"LI","Sri Lanka"=>"LK","Lithuania"=>"LT","Luxembourg"=>"LU","Latvia"=>"LV","Morocco"=>"MA","Monaco"=>"MC","Moldova"=>"MD","Montenegro"=>"ME","Saint Martin (French part)"=>"MF","Macedonia"=>"MK","Macao SAR"=>"MO","Martinique"=>"MQ","Mauritania"=>"MR","Malta"=>"MT","Mauritius"=>"MU","Maldives"=>"MV","Mexico"=>"MX","Malaysia"=>"MY","Namibia"=>"NA","New Caledonia"=>"NC","Nigeria"=>"NG","Netherlands"=>"NL","Norway"=>"NO","Nepal"=>"NP","New Zealand"=>"NZ","Oman"=>"OM","Panama"=>"PA","Peru"=>"PE","French Polynesia"=>"PF","Philippines"=>"PH","Pakistan"=>"PK","Poland"=>"PL","Saint Pierre and Miquelon"=>"PM","Puerto Rico"=>"PR","Palestine"=>"PS","Portugal"=>"PT","Paraguay"=>"PY","Qatar"=>"QA","Réunion"=>"RE","Romania"=>"RO","Serbia"=>"RS","Saudi Arabia"=>"SA","Seychelles"=>"SC","Sweden"=>"SE","Singapore"=>"SG","Slovenia"=>"SI","Slovakia"=>"SK","San Marino"=>"SM","El Salvador"=>"SV","French Southern Territories"=>"TF","Thailand"=>"TH","Tajikistan"=>"TJ","Timor"=>"TL","Tunisia"=>"TN","Turkey"=>"TR","Tanzania"=>"TZ","Taiwan (China)"=>"TW","Ukraine"=>"UA","Uganda"=>"UG","United States of America"=>"US","Uruguay"=>"UY","Uzbekistan"=>"UZ","Virgin Islands (British)"=>"VG","Viet Nam"=>"VN","Vanuatu"=>"VU","Wallis and Futuna"=>"WF","Kosovo"=>"XK","Mayotte"=>"YT","South Africa"=>"ZA","Zambia"=>"ZM");
+    }
+
     public function get_mod_BankAccount()
     {
          if($this->return_mod_BankAccount == null)
@@ -141,7 +286,7 @@ class Controller extends BaseController
     {
 
         if(!empty($amount))
-        return $amount/100;
+        return number_format($amount/100,2);
         else
             return null;
     }

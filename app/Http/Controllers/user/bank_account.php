@@ -113,6 +113,10 @@ class bank_account extends Controller
 
                         
                           if($request_bank->save())
+                          {
+
+                            parent::insert_transaction(1,parent::unpack_balance(100),$userTableData->balance,$adjust_balance,1,$auth_user->id);
+
                     return parent::get_success_msg('We are processing your bank request!').'<script>
                                                             $("#req_bank_confirm").remove();
                                                             location.reload();
@@ -121,6 +125,8 @@ class bank_account extends Controller
                                                         $("#reqBankCloseBtn").html("Close");
                                                         
                                                     </script>';
+
+                        }
 
                 else
                     return parent::get_error_msg('We are unable to process your request. Please contact with support!');

@@ -95,13 +95,13 @@
                                                             <div class="ms-auto card_min_width text-center mb-4 mt-4">
 
                                                                 <div class="btn-group ">
-                                    <button data-toggle="tooltip" data-placement="top" title="Top-up fund" type="button" class="btn light btn-secondary" data-bs-toggle="modal" data-bs-target="#add_fund_modal"><i class="fa fa-plus"></i></button>
+                                    <button onclick="clear_card_addFund();" data-toggle="tooltip" data-placement="top" title="Top-up fund" type="button" class="btn light btn-secondary" data-bs-toggle="modal" data-bs-target="#add_fund_modal"><i class="fa fa-plus"></i></button>
 
-                                    <button data-toggle="tooltip" data-placement="top" title="Withdraw fund" type="button" class="btn light btn-secondary"><i class="fa fa-arrow-up"></i></button>
+                                    <button onclick="clear_card_withdrawFund();" data-toggle="tooltip" data-placement="top" title="Withdraw fund" type="button" class="btn light btn-secondary" data-bs-toggle="modal" data-bs-target="#withdraw_fund_modal"><i class="fa fa-arrow-up"></i></button>
 
-                                    <button href="{{route('user.update_card.status',$card->id)}}?status={{$card->status_code}}" data-toggle="tooltip" data-placement="top" title="{{$card->status_toollip}}" type="button" class="btn light btn-secondary"><i class="fa fa-snowflake"></i></button>
+                                    <a href="{{route('user.update_card.status',$card->id)}}?status={{$card->status_code}}" data-toggle="tooltip" data-placement="top" title="{{$card->status_toollip}}" type="button" class="btn light btn-secondary"><i class="fa fa-snowflake"></i></a>
 
-                                    <button data-toggle="tooltip" data-placement="top" title="Get statement" type="button" class="btn light btn-secondary"><i class="fa fa-file-alt"></i></button>
+                                    <button  data-toggle="tooltip" data-placement="top" title="Get statement" type="button" class="btn light btn-secondary"><i class="fa fa-file-alt"></i></button>
                                 </div>
                                     
                                                             </div>
@@ -228,9 +228,7 @@
                                 </div>
 
                                  
-                                        @else
-                                        <hr class="mt-2">
-                                        <center class="text-primary"><p>You don't have any transactions yet. When you do, they'll appear here.</p></center>
+                                     
                                         @endif
 
                                  
@@ -274,7 +272,7 @@
 
                                                             <label>Amount</label>
 
-                                                            <input type="text" name="cardAmount" class="form-control amount" placeholder="Enter amount">
+                                                            <input type="text" id="cardAmount" name="cardAmount" class="form-control amount" placeholder="Enter amount">
                                                    
                                                         </div>
 
@@ -289,7 +287,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button data-bs-dismiss="modal" type="button" class="btn btn-danger light">Close</button>
-                                                    <button id="addfundClick" type="button" class="btn btn-primary">Request Now</button>
+                                                    <button id="addfundClick" type="button" class="btn btn-primary">Add Now</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -297,6 +295,51 @@
 
 
                                       @include('helper/basic_form_submit',['click' => 'addfundClick','formid'=>'addfundForm','msg'=>'addfundMsg'])
+
+
+
+                                      <!-- Add Fund -->
+                                    <div class="modal fade " data-bs-backdrop="static" data-bs-keyboard="false" id="withdraw_fund_modal">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Withdraw Fund</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <form id="withdrawfundForm" method="POST" action="{{route('user.update_card.addfund',$card->id)}}">
+
+                                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+
+                                                       <div class="mb-3 row">
+
+                                                            <label>Amount</label>
+
+                                                            <input type="text" id="cardAmountw" name="cardAmountw" class="form-control amount" placeholder="Enter amount">
+                                                   
+                                                        </div>
+
+
+
+                                        <div id="withdrawfundMsg" class="mb-3 text-center">
+                                        </div>
+
+                                        </form>
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button data-bs-dismiss="modal" type="button" class="btn btn-danger light">Close</button>
+                                                    <button id="withdrawfundClick" type="button" class="btn btn-primary">Withdraw Now</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                      @include('helper/basic_form_submit',['click' => 'withdrawfundClick','formid'=>'withdrawfundForm','msg'=>'withdrawfundMsg'])
 
 
 

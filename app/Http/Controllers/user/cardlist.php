@@ -15,7 +15,11 @@ class cardlist extends Controller
 
         $user = parent::get_auth_user();
 
-        $get_all_card = $cardTable->where('refer',$user->id)->paginate(10);
+        $get_all_card = $cardTable->where('refer',$user->id)->orderBy('id','DESC')->paginate(10);
+
+        $count_total_card = $cardTable->where('refer',$user->id)->count();
+        $count_visa_card = $cardTable->where('refer',$user->id)->where('type',1)->count();
+        $count_master_card = $cardTable->where('refer',$user->id)->where('type',2)->count();
 
         foreach ($get_all_card as $card) {
 
@@ -45,7 +49,10 @@ class cardlist extends Controller
         }
 
         return parent::get_view('user/cardlist','Card List | Payowire','Card List')
-        ->with('get_all_card',$get_all_card);
+        ->with('get_all_card',$get_all_card)
+        ->with('count_total_card',$count_total_card)
+        ->with('count_visa_card',$count_visa_card)
+        ->with('count_master_card',$count_master_card);
     }
 
 
@@ -169,6 +176,7 @@ class cardlist extends Controller
 
         $status = $request->status;
         $cardAmount = $request->cardAmount;
+        $cardAmountw = $request->cardAmountw;
 
         $user = parent::get_auth_user();
 
@@ -178,6 +186,8 @@ class cardlist extends Controller
         if(!isset($card->id))
             return redirect()->route('user.cardview',$cardid)
                     ->with('error','We are unable to process your request at the moment. Try again later.');
+
+        $my_balance = parent::unpack_balance($user->balance);
 
 
      // ######### UPDATE CARD STATUS ##################
@@ -235,7 +245,6 @@ class cardlist extends Controller
                     return parent::get_error_msg('Card amount exceeding the spending limit');
 
 
-            $my_balance = parent::unpack_balance($user->balance);
 
             if($now_card_load>$my_balance)
                 return parent::get_error_msg('You do not have sufficient funds to make this request!');
@@ -279,10 +288,17 @@ class cardlist extends Controller
                  $response= json_decode($response);
                 
                  if(isset($response->limits))
+                 {
+
+                    // insert transaction
+                    parent::insert_transaction(4,$now_card_load,$user->balance,($user->balance-$now_card_load),1,$user->id);
+
                     return parent::get_success_msg('The fund has been added to your card successfully!').'<script>
                                                             document.getElementById("addfundForm").reset();
                                                             location.reload();
                                                             </script>';
+
+                                                        }
            
 
         else 
@@ -301,12 +317,82 @@ class cardlist extends Controller
 
 
 
-
-
-
-
         }
 
+        // ######### Withdraw CARD BALANCE ##################
+
+        else if(isset($cardAmountw))
+        {
+
+             if($cardAmountw<0 || !is_numeric($cardAmountw) || !preg_match('/^[0-9]+(\\.[0-9]+)?$/', $cardAmountw))
+            return parent::get_error_msg('Please enter a valid usd amount!');
+
+            $now_card_withdraw = parent::unpack_balance($cardAmountw);
+
+                       //fetch card balance
+
+        $response = parent::fetch_visa_card_data_karta_api($card->sid);
+        $response= json_decode($response);
+
+        if(!isset($response->id))
+            return parent::get_error_msg('We are unable to process your request at the moment.Try again later.');
+
+         $card_limit = $response->limits;
+
+         $limit_value = $card_limit[0]->value;
+         $spend_value = $card_limit[0]->spend;
+
+         $card_balance = parent::unpack_balance($limit_value) - parent::unpack_balance($spend_value);
+
+         if($now_card_withdraw>$card_balance)
+            return parent::get_error_msg('Withdraw amount exceeding the withdraw limit');
+
+        $new_card_limit = parent::unpack_balance($limit_value) - $now_card_withdraw;
+
+        if($new_card_limit<0)
+             return parent::get_error_msg('We are unable to process your request at the moment.Try again later.');
+
+         $new_card_limit = parent::fetch_balance($new_card_limit);
+
+
+
+        // adjust limit
+
+
+                                $response = parent::update_card_karta_api($card->sid,'',$new_card_limit);
+                 $response= json_decode($response);
+                
+                 if(isset($response->limits))
+                 {
+
+                    // adjust balance
+
+                      $adjust_balance = parent::adjust_balance($user->id,1,$now_card_withdraw);
+
+                    if($adjust_balance == 1)
+                    {
+
+                        // insert transaction
+                    parent::insert_transaction(5,$now_card_withdraw,$user->balance,($user->balance+$now_card_withdraw),1,$user->id);
+                    
+
+                    return parent::get_success_msg('The fund has been withdraw to your account balance successfully!').'<script>
+                                                            document.getElementById("withdrawfundForm").reset();
+                                                            location.reload();
+                                                            </script>';
+                                                        }
+
+
+
+                        else 
+                            return parent::get_error_msg('We are unable to process your request at the moment.Try again later.');
+                        
+
+                 }
+                 else
+                    return parent::get_error_msg('We are unable to process your request at the moment.Try again later.');
+
+        }
 
     }
 

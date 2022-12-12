@@ -28,6 +28,9 @@
 
                                             </div>
 
+                                             <button data-bs-toggle="modal" data-bs-target="#add_bank_modal" type="button" class="btn btn-primary">Add Bank</button>
+
+
                                                         
                                         </div>
 
@@ -59,7 +62,7 @@
                                         <i class="fa fa-landmark text-primary fa-2x"></i>
                                     </div>
                                     <div class="new-arrival-content text-center mt-3">
-                                        <h4>Send money to bank</h4>
+                                        <h4>Send money to my bank</h4>
                                       
                                     </div>
                                 </div>
@@ -116,6 +119,73 @@
         ***********************************-->
 
 
+
+
+            <!-- get Bank Modal -->
+                                    <div class="modal fade" tabindex="-1"  style="overflow:hidden;" data-bs-backdrop="static" data-bs-keyboard="false" id="add_bank_modal">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Add Bank Account</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <form  id="addBankForm" method="POST" action="{{route('user.make_payment')}}">
+
+                                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+
+                                                        <input type="hidden" id="add_bank_confirm" name="confirm" value="0">
+
+
+                                                        <div id="step1">
+
+                                                        <div class="mb-3 row">
+                                                            <label class="form-label">Bank Type</label>
+                                                                    <select name="bank_type" class="default-select form-control wide mb-3">
+                                            <option value="">Select Type</option>
+                                            <option value="1">Personal</option>
+                                            <option value="2">Business</option>
+                                        </select>
+                                                        </div>
+
+
+                                                        <div class="mb-3 row">
+                                                            <label class="form-label">Bank Country</label>
+
+                                            <select  name="bank_country" class="nice-select default-select default-select form-control wide mb-3" data-toggle="select2">
+                                            <option value="" selected>Select Country</option>
+                                         @foreach ($get_all_country as $country)
+                                         <option value="{{$country}}">{{$country}}</option>
+                                         @endforeach
+                                        </select>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div id="step2"></div>
+
+
+                                        <div id="addBankMsg" class="mb-3 text-center">
+                                        </div>
+
+                                    </form>
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button onclick="payment_add_bank_backBtn(this)" id="addBankCloseBtn" type="button" class="btn btn-danger light">Close</button>
+                                                    <button id="addBankclick" type="button" class="btn btn-primary">Next</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                     @include('helper/basic_form_submit',['click' => 'addBankclick','formid'=>'addBankForm','msg'=>'addBankMsg'])
+
+                                   
 
 
 

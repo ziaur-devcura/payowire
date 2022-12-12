@@ -91,12 +91,18 @@ class sendmoney extends Controller
                 if($adjust_fund == $balance_adj_query->balance)
                     {
 
+                         parent::insert_transaction(6,parent::unpack_balance($total),$mydata->balance,$adjust_fund,1,$mydata->id);
+
                         $recipient_balance = $check_recipient->balance;
                         $adjust_recipient_balance = $recipient_balance + parent::unpack_balance($sendAmount);
                         $balance_adj_query = tap($recipient_user_table)->update(['balance' => $adjust_recipient_balance])->first();
 
                         if($adjust_recipient_balance == $balance_adj_query->balance)
                         {
+
+                            //insert transaction
+
+                        parent::insert_transaction(9,parent::unpack_balance($sendAmount),$recipient_balance,$adjust_recipient_balance,1,$check_recipient->id);
 
                          return '<script>
                          close_preview(1,"#sendmoneyPreview","#sendmoneyForm","#sendmoneyMsg");

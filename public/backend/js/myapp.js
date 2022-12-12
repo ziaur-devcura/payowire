@@ -48,6 +48,32 @@
 });
 
 
+             $(".btn").mousedown(function(e) { // handle the mousedown event
+    e.preventDefault(); // prevent the textarea to loose focus!
+}); 
+
+               $(".btn").focus(function(e){
+    $('button').blur();
+  });
+
+    $("a").mousedown(function(e) { // handle the mousedown event
+    e.preventDefault(); // prevent the textarea to loose focus!
+}); 
+
+               $("a").focus(function(e){
+    $('a').blur();
+  });
+
+
+ // Select2
+        if (jQuery().select2) {
+            $('[data-toggle="select2"]').select2({
+                   dropdownParent: $('.modal')
+                   });
+        }
+
+
+
       function close_preview(confirm,modal_id,form_id='',msg_id='')
                                          {
 
@@ -131,6 +157,7 @@
  
     btn_tooltip.show();
 
+
     elm.setAttribute("data-bs-original-title", "Click to copy");
 
   
@@ -141,3 +168,74 @@ function close_tooltip()
 {
      $('[data-toggle="tooltip"]').tooltip("hide");
 }
+
+function clear_card_addFund()
+{
+    $('#cardAmount').val('');
+    $('#addfundMsg').html('');
+}
+
+
+     function check_bank_req(elm)
+                                    {
+
+                                        var close = $(elm).html();
+
+                                        if(close == 'Cancel')
+                                        {
+                                            $('#req_bank_confirm').remove();
+                                            $("#req_bank_select").removeClass("d-none");
+                                            $(elm).html('Close');
+                                            $('#reqMsg').html('');
+
+
+                                        }
+                                        else
+                                             $('#get_bank_model').modal('hide');
+
+
+
+                                    }
+
+
+                                    function clear_bank_req()
+                                    {
+                                        $('#reqMsg').html('');
+
+                                         if($('#req_bank_confirm').length)
+                                            $('#req_bank_confirm').remove();
+
+                                        $('#reqBankCloseBtn').html('Close');
+
+                                    }
+
+
+function clear_card_withdrawFund()
+{
+    $('#cardAmountw').val('');
+    $('#withdrawfundMsg').html('');
+}
+
+function payment_add_bank_backBtn(elm){
+
+    var close = $(elm).html();
+
+    if(close == 'Close')
+        $('#add_bank_modal').modal('hide');
+    else if(close == 'Back')
+    {
+        $(elm).html('Close');
+        $("#addBankclick").html("Next");
+        $("#addBankMsg").html('');
+        $("#add_bank_confirm").val(0);
+        $('#step2').html('');
+        $('#step1').removeClass('d-none');
+
+    }
+
+
+
+
+
+}
+

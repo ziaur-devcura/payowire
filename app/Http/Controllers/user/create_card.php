@@ -198,6 +198,8 @@ class create_card extends Controller
                {
                     // transaction query
 
+                         parent::insert_transaction(3,parent::unpack_balance($totalAmount),parent::unpack_balance($get_my_balance),$adjust_balance,1,$user->id);
+
                     return 1;
                }
                else

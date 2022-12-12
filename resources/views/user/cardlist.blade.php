@@ -18,9 +18,9 @@
                                             <div class="d-flex flex-wrap align-items-center mb-5">
 
                                                     <div class="me-auto">
-
-                                                    <h4 class="card-title">Your All Card</h4>
+                                                    <h4 class="card-title">Your All Card </h4>
                                                 <span>Manage your card details, transaction</span>
+                                                <p class="mt-2"><span class="badge badge-pill badge-info">{{$get_all_card}}</span> <span class="badge badge-pill badge-info">Total card: {{$count_total_card}}</span> <span class="badge badge-pill badge-info">Total visa card: {{$count_visa_card}}</span> <span class="badge badge-pill badge-info">Total master card: {{$count_master_card}}</span></p>
 
                                             </div>
 
