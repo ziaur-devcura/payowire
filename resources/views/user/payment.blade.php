@@ -28,8 +28,7 @@
 
                                             </div>
 
-                                             <button data-bs-toggle="modal" data-bs-target="#add_bank_modal" type="button" class="btn btn-primary">Add Bank</button>
-
+                                             <button onclick="payment_add_bank_backBtn('#addBankCloseBtn')" data-bs-toggle="modal" data-bs-target="#add_bank_modal" type="button" class="btn btn-primary">Add Bank</button>
 
                                                         
                                         </div>
@@ -39,7 +38,7 @@
 
 
                     <div  class="col-6 col-md-4 col-lg-4 col-xl-2 justify-content-center mt-3 pointer">
-                        <div onclick="" class="card bank">
+                        <div onclick="choose_payment_bank(this,1)"  class="card bank">
                             <div class="card-body">
                                 <div class="new-arrival-product">
                                     <div class="text-center">
@@ -54,8 +53,8 @@
                         </div>
                     </div>
 
-                    <div  class="col-6 col-md-4 col-lg-4 col-xl-2 justify-content-center mt-3 pointer">
-                        <div onclick="" class="card bank">
+                    <div class="col-6 col-md-4 col-lg-4 col-xl-2 justify-content-center mt-3 pointer">
+                        <div onclick="choose_payment_bank(this,2)" class="card bank">
                             <div class="card-body">
                                 <div class="new-arrival-product">
                                     <div class="text-center">
@@ -71,24 +70,57 @@
                     </div>
 
 
-
-
-
-
-
-
                                     </div> <!--row end-->
 
 
                             <div class="row mt-4">
+                                 <div class="col-xl-12 col-md-12 m-auto">
 
-                                <div class="col-md-6 m-auto text-center" id="fetch_bank_result">
+                                         
 
-        
+                                            <div class="col-xl-8 col-md-12 m-auto" id="fetch_bank_result">
 
-                                </div>
 
+                                             </div>
+
+                                       
+
+                                    </div>
                             </div>
+
+
+                            <script type="text/javascript">
+                                    function choose_payment_bank(selected,recipient_type)
+    {
+       
+
+        $(".bank_select").removeClass( "bank_select" );
+        $(selected).addClass( "bank_select" );
+        //$("#bank_selected_row").removeClass( "d-none" );
+
+        $("#fetch_bank_result").html('<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>');
+
+
+         $.ajax({
+        type: "POST",
+        url: "{{route('user.payment.fetch_bank','')}}"+'/'+recipient_type,
+        data: {_token: "{{ csrf_token() }}"
+
+        },
+        dataType: "html",
+        success: function(response) {
+
+          $("#fetch_bank_result").html(response);
+            
+        },
+         error: function(xhr, textStatus, thrownError) {
+
+            
+        }
+    });
+
+    }
+                            </script>
 
 
 
@@ -101,16 +133,7 @@
                         </div>
                     </div>
 
-
-
-
-
                 </div>
-
-
-			
-
-            
 
             </div>
         </div>
@@ -122,7 +145,7 @@
 
 
             <!-- get Bank Modal -->
-                                    <div class="modal fade" tabindex="-1"  style="overflow:hidden;" data-bs-backdrop="static" data-bs-keyboard="false" id="add_bank_modal">
+                                    <div class="modal fade"  data-bs-backdrop="static" data-bs-keyboard="true" id="add_bank_modal">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -154,13 +177,23 @@
                                                         <div class="mb-3 row">
                                                             <label class="form-label">Bank Country</label>
 
-                                            <select  name="bank_country" class="nice-select default-select default-select form-control wide mb-3" data-toggle="select2">
-                                            <option value="" selected>Select Country</option>
+                                            <select  name="bank_country" class="default-select form-control wide mb-3 select2">
+                                            <option id="payment_country" value="" selected>Select Country</option>
                                          @foreach ($get_all_country as $country)
                                          <option value="{{$country}}">{{$country}}</option>
                                          @endforeach
                                         </select>
 
+                                                        </div>
+
+
+                                                         <div class="mb-3 row">
+                                                            <label class="form-label">Recipient Type</label>
+                                                                    <select name="recipient_type" class="default-select form-control wide mb-3">
+                                            <option value="">Select Type</option>
+                                            <option value="1">Myself</option>
+                                            <option value="2">Someone else</option>
+                                        </select>
                                                         </div>
 
                                                     </div>
@@ -185,8 +218,9 @@
 
                                      @include('helper/basic_form_submit',['click' => 'addBankclick','formid'=>'addBankForm','msg'=>'addBankMsg'])
 
-                                   
+                                     @include('helper/basic_form_submit',['click' => 'sendmoneyCLick','formid'=>'sendmoneyForm','msg'=>'sendmoneyMsg'])
 
+                                   
 
 
 		

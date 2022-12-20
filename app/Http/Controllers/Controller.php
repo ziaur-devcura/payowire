@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\cardModel;
 use App\Models\gatewayModel;
 use App\Models\transactionModel;
+use App\Models\user\payment_bank;
 
 class Controller extends BaseController
 {
@@ -28,6 +29,7 @@ class Controller extends BaseController
     private $return_gateway_table;
     private $return_karta_gateway;
     private $return_transaction_table;
+    private $return_paymentBank_table;
 
     public function get_setting()
     {
@@ -89,6 +91,40 @@ class Controller extends BaseController
             $this->return_transaction_table = new transactionModel();
 
         return $this->return_transaction_table;
+
+    }
+
+
+      public function get_paymentBank_table()
+    {
+
+        if($this->return_paymentBank_table == null)
+            $this->return_paymentBank_table = new payment_bank();
+
+        return $this->return_paymentBank_table;
+
+    }
+
+    // insert payment bank 
+
+    public function insert_payment_bank($bank_type,$bank_country,$recipient_type,$ben_firstname,$ben_lastname,$bank_name,$account_number,$routing_number,$bank_address,$iban,$swift_code,$refer)
+    {
+        $payment_bank_table = $this->get_paymentBank_table();
+
+         return $payment_bank_table->create([
+                'bank_type'=> $bank_type, 
+                'bank_country'=>$bank_country,
+                'recipient_type'=>$recipient_type,
+                'ben_firstname' => $ben_firstname,
+                'ben_lastname' => $ben_lastname,
+                'bank_name' => $bank_name,
+                'account_number' => $account_number,
+                'routing_number' => $routing_number,
+                'bank_address' => $bank_address,
+                'iban' => $iban,
+                'swift_code' =>$swift_code,
+                'refer' => $refer
+            ]);
 
     }
 
@@ -218,7 +254,7 @@ class Controller extends BaseController
     {
         return ' <div class="alert alert-success  fade show">
                             
-                                    <strong>Success!</strong> '.$msg.'
+                                    <h6><strong>Success!</strong> '.$msg.'</h6>
                                 </div>'.$extra.'';
     }
 
@@ -264,6 +300,15 @@ class Controller extends BaseController
 
         return array("Bangladesh"=>"Bangladesh","United State"=>"United State");
 
+    }
+
+    // switft / bic validator
+
+      public  function validate_swift_bic($swiftbic)
+    {
+        $regexp = '/^[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}$/i';
+
+        return (bool) preg_match($regexp, $swiftbic);
     }
 
 
@@ -387,6 +432,54 @@ class Controller extends BaseController
 
         return $result;
     }
+
+
+    // currency update
+
+    public function currency_update()
+    {
+        $get_setting_table = $this->get_setting_table();
+        $get_setting = $this->get_setting();
+
+        $get_currency_data =  json_decode($get_setting->currency_data);
+
+        if(!isset($get_currency_data->timestamp))
+            return 0;
+
+        $starttimestamp = strtotime($get_currency_data->timestamp);
+        $endtimestamp = strtotime(time());
+        $difference = abs($endtimestamp - $starttimestamp)/3600;
+
+        if($difference>24)
+        {
+            $url = 'https://api.apilayer.com/currency_data/live';
+
+            $headers = array(
+    "Content-Type: text/plain",
+    "apikey: BvU7zSn0jRb0XuQN6UMJ5pWuDfyNuDsv"
+        );
+
+    $response = json_decode($this->call_curl($url,$headers,'GET',''));
+
+    if(isset($response->quotes))
+    {
+        $sql = $get_setting_table->where('id',1)->update((['currency_data' => $response]));
+        if($sql)
+        return 1;
+    else
+        return 0;
+    }
+    else
+        return 0;
+
+        }
+        else
+            return 1;
+
+
+    }
+
+
 
 
         public function create_visa_card_karta_api($data)

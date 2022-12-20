@@ -42,6 +42,8 @@
     <!-- Toastr -->
     <script src="{{URL::asset('backend/vendor/toastr/js/toastr.min.js')}}"></script>
 
+    <script src="{{URL::asset('backend/vendor/sweetalert2/dist/sweetalert2.min.js')}}"></script>
+
      <!-- pooper -->
     <script src="{{URL::asset('backend/js/popper.min.js')}}"></script>
 

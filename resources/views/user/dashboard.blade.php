@@ -7,7 +7,7 @@
             <!-- row -->
 			<div class="container-fluid">
 				<div class="row invoice-card-row">
-					<div class="col-xl-3 col-xxl-3 col-sm-6">
+					<div class="col-xl-3 col-xxl-4 col-sm-6">
 						<div class="card bg-warning invoice-card">
 							<div class="card-body d-flex">
 								<div class="icon me-3">
@@ -23,7 +23,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-3 col-xxl-3 col-sm-6">
+					<div class="col-xl-3 col-xxl-4 col-sm-6">
 						<div class="card bg-success invoice-card">
 							<div class="card-body d-flex">
 								<div class="icon me-3">
@@ -42,7 +42,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-3 col-xxl-3 col-sm-6">
+					<div class="col-xl-3 col-xxl-4 col-sm-6">
 						<div class="card bg-info invoice-card">
 							<div class="card-body d-flex">
 
@@ -63,7 +63,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-3 col-xxl-3 col-sm-6">
+					<div class="col-xl-3 col-xxl-4 col-sm-6">
 						<div class="card bg-secondary invoice-card">
 							<div class="card-body d-flex">
 								<div class="icon me-3">

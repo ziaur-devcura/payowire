@@ -26,6 +26,9 @@
     <link href="{{ URL::asset('backend/vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 
 
+    <link href="{{ URL::asset('backend/vendor/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
+
+
 	<!-- Style css -->
     <link href="{{URL::asset('backend/css/style.css')}}" rel="stylesheet">
 
@@ -35,7 +38,7 @@
       <!-- Chart ChartJS plugin files -->
     <script src="{{URL::asset('backend/vendor/chart.js/Chart.bundle.min.js')}}"></script>
 
-    <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=4dccc130"></script>
+    <!--<script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=4dccc130"></script>-->
     
 
 

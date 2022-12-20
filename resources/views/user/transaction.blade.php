@@ -83,7 +83,7 @@
                                                         <span class="fs-14">{{$transaction->time}}</span>
                                                     </td>
 
-                                                     <td><span class="fs-16 text-black font-w600">{{$transaction->next_type}}{{$transaction->amount}}</span></td>
+                                                     <td><span class="fs-16 {{$transaction->amount_class}} font-w600">{{$transaction->next_type}}{{$transaction->amount}}</span></td>
 
                                                      <td>
                                                         <h6 class="fs-16 font-w600 mb-0">{!!$transaction->type!!}</h6>

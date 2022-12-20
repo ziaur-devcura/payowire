@@ -35,6 +35,7 @@ class transaction extends Controller
                                                         </svg></span>';
             
                     $transaction->next_type = '+$';
+                    $transaction->amount_class = 'text-success';
 
 
                     }
@@ -47,6 +48,7 @@ class transaction extends Controller
 
 
                         $transaction->next_type = '-$';
+                        $transaction->amount_class = 'text-danger';
 
 
 
