@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Rules\iban_validation;
 use App\Rules\swift_bic_validation;
 
-class make_paymentReq extends FormRequest
+class add_bank_payment extends FormRequest
 {
 
 
@@ -61,7 +61,7 @@ class make_paymentReq extends FormRequest
         {
              $additionalRules = [
 
-            'iban' => ['required_if:confirm,1|max:40',new iban_validation],
+            'iban' => ['required_if:confirm,1|max:40',new iban_validation(request()->bank_country)],
             'swift_code' => ['required_if:confirm,1|max:12',new swift_bic_validation]
           ];
 

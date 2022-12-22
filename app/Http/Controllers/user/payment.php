@@ -4,46 +4,14 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\user\make_paymentReq;
+use App\Http\Requests\user\add_bank_payment;
 use PHP_IBAN\IBANCountry;
+use App\Http\Requests\user\send_payment;
 
 class payment extends Controller
 {
     public function paymentView()
     {
-
-        $date = '
-                                                         <div class="mb-3 row">
-                                                           <label class="form-label">Bank Name</label>
-                                                <input type="text" name="bank_name" class="form-control" placeholder="Enter bank name">
-                                                        </div>
-
-
-                                                        <div class="mb-3 row">
-                                                           <label class="form-label">Account Number</label>
-                                                <input type="text" name="bank_ac_number" class="form-control" placeholder="Enter account number">
-                                                        </div>
-
-
-                                                         <div class="mb-3 row">
-                                                           <label class="form-label">Routing Number</label>
-                                                <input type="text" name="bank_routing_number" class="form-control" placeholder="Enter routing number">
-                                                        </div>
-
-
-                                                        <div class="mb-3 row">
-                                                           <label class="form-label">IBAN</label>
-                                                <input type="text" name="bank_iban" class="form-control" placeholder="Enter IBAN">
-                                                        </div>
-
-
-
-                                                         <div class="mb-3 row">
-                                                           <label class="form-label">Swift Code</label>
-                                                <input type="text" name="bank_swift" class="form-control" placeholder="Enter swift code">
-                                                        </div>
-
-                                                 ';
 
         $get_all_country = parent::get_payment_country_list();
 
@@ -55,7 +23,7 @@ class payment extends Controller
     }
 
 
-    public function make_payment(make_paymentReq $request)
+    public function add_bank_payment(add_bank_payment $request)
     {
 
         $bank_type = $request->bank_type;
@@ -156,7 +124,7 @@ class payment extends Controller
         $bank_account = ' <div class="mb-3 col-md-6">
                                                             <label class="form-label">Bank Account</label>
 
-                                            <select id="payment_country" name="bank_country" class="nice-select default-select default-select form-control wide mb-3" data-toggle="select2">
+                                            <select id="payment_country" name="bank_account" class="nice-select default-select default-select form-control wide mb-3" data-toggle="select2">
                                             <option value="" selected>Select Bank Account</option>';
 
             $my_bank_to_array = '{';
@@ -180,6 +148,7 @@ class payment extends Controller
         else
         {
 
+
             if(parent::currency_update() == 1)
             {
 
@@ -190,15 +159,16 @@ class payment extends Controller
 
 
 
-        return ' <form id="sendmoneyForm" method="POST" action="'.route('user.sendmoneydo').'">
+        return ' <form id="sendmoneyForm" method="POST" action="'.route('user.payment.send').'">
     <div class="row">
 
                                                      <input type="hidden" name="_token" value="'.csrf_token().'">
+                                                     <input type="hidden" id="payment_confirm_input" name="confirm" value="0">
 
                                                       <div class="mb-3 col-md-6 ">
                                                 <label class="form-label">Form</label>
-                                                               <select name="whichBalance" class="nice-select default-select default-select form-control wide mb-3" data-toggle="select2">
-                                            <option value="usd">USD Balance</option>
+                                                               <select name="whichBalance" class="default-select form-control wide mb-3" >
+                                            <option value="1">USD Balance</option>
                                            
                                         </select>
                                         <p class="text-info">Current Balance: '.$current_balance.' USD</p>
@@ -214,10 +184,19 @@ class payment extends Controller
                                                 <p class="text-info" id="payment_amount_convert"></p>
                                             </div>
 
-                                              <div class="mb-3 col-md-6">
-                                                <label class="form-label">Purpose of payment</label>
-                                                <input type="text" name="purpose" class="form-control" maxlength="100" placeholder="Enter purpose of payment">
-                                            </div>
+                                               <div class="mb-3 col-md-6">
+                                                            <label class="form-label">Purpose</label>
+                                                                    <select name="purpose" class="default-select form-control wide mb-3">
+                                            <option value="">Select Purpose</option>
+                                            <option value="1">Salary</option>
+                                            <option value="2">Personal Remittance</option>
+                                            <option value="3">Family Support</option>
+                                            <option value="4">Living Expenses</option>
+                                            <option value="5">Travel</option>
+                                            <option value="6">Good Purchased</option>
+                                            <option value="7">Professional Business Services</option>
+                                        </select>
+                                                        </div>
 
                                                         <div class="mb-3 mt-3 text-center">
 
@@ -238,7 +217,6 @@ class payment extends Controller
                    });
         }
 
-        amount_input();
 
 
 
@@ -257,6 +235,8 @@ class payment extends Controller
         if(euro_country()[$(this).val()]!==undefined)
             payment_cur_rate = '.$euro_rate.';
 
+            $("#payment_amount").trigger("input");
+
     });
 
 
@@ -264,7 +244,17 @@ class payment extends Controller
     {
 
         var val = $(this).val() * 100;
-        var cur_rate = payment_cur_rate * 100;
+        var cur_code = "USD";
+
+        if($("#payment_country").val()=="" && val>0)
+        {
+            $("#payment_amount_convert").removeClass("text-info");
+            $("#payment_amount_convert").addClass("text-danger");
+            $("#payment_amount_convert").html("Please choose bank account first");
+        }
+
+        else if(val>0)
+        {
 
         if(val>'.$userdata->balance.')
         {
@@ -274,14 +264,23 @@ class payment extends Controller
         }
         else
         {
+            if(payment_cur_rate != 1)
+            cur_code = "EURO";
+
+
+
             $("#payment_amount_convert").removeClass("text-danger");
             $("#payment_amount_convert").addClass("text-info");
-        $("#payment_amount_convert").html("Will receive: "+((val*payment_cur_rate)/100).toFixed(2) + " EURO");
+        $("#payment_amount_convert").html("Will receive: "+((val*payment_cur_rate)/100).toFixed(2) + " "+cur_code);
         }
+    }
+    else
+    $("#payment_amount_convert").html("");
 
     });
 
-        </script>';
+        </script>
+        ';
     }
     else
          return parent::get_error_msg('We are unable to process your request at the moment! Please try again later.');
@@ -290,9 +289,112 @@ class payment extends Controller
     }
 
 
-    public function send_paymentdo()
+    public function send_paymentdo(send_payment $request)
     {
-        return 'ok;
+        $whichBalance = $request->whichBalance;
+        $bank_account = $request->bank_account;
+        $sendAmount = $request->sendAmount;
+        $purpose = $request->purpose;
+        $confirm = $request->confirm;
+
+        $mydata = parent::get_auth_user();
+
+
+        $payment_bank_table = parent::get_paymentBank_table();
+
+        $check_bank_account = $payment_bank_table->where('refer',$mydata->id)->where('id',$bank_account)->first();
+
+        if(!isset($check_bank_account->id))
+            return parent::get_error_msg('The bank account you used was not valid!');
+
+
+          if(parent::currency_update() == 1)
+            {
+
+                $currency_data = json_decode(parent::get_setting()->currency_data);
+
+                $euro_rate = $currency_data->quotes->USDEUR;
+
+                 $unpack_sendAmount = parent::unpack_balance($sendAmount);
+
+
+                if(isset(parent::sepa_payment_country()[$check_bank_account->bank_country]))
+                {
+                    $bank_currency = 'EUR';
+                    $actual_send_amount = $unpack_sendAmount * $euro_rate;
+                }
+                else
+                {
+                    $bank_currency = 'USD';
+                    $actual_send_amount = $unpack_sendAmount;
+                }
+
+                // fees
+                $actual_send_amount = parent::fetch_balance($actual_send_amount);
+                $send_fees = parent::fetch_balance(500);
+                $send_amount = parent::fetch_balance($unpack_sendAmount);
+                $total_amount = parent::fetch_balance(500 + $unpack_sendAmount);
+
+
+                if($confirm!=1)
+
+                   return '<script>
+                $("#preview_result").html(\'<ul class="list-group list-group-flush">\' +
+                                    \'<li class="list-group-item d-flex px-0 justify-content-between">\'+
+                                        \'<strong>Bank Name:</strong>\'+
+                                        \'<span class="mb-0">'.$check_bank_account->bank_name.'</span>\'+
+                                    \'</li>\'+
+                                    \'<li class="list-group-item d-flex px-0 justify-content-between">\'+
+                                        \'<strong>Bank Country:</strong>\'+
+                                        \'<span class="mb-0">'.$check_bank_account->bank_country.'</span>\'+
+                                    \'</li>\'+
+                                    \'<li class="list-group-item d-flex px-0 justify-content-between">\'+
+                                        \'<strong>Purpose:</strong>\'+
+                                        \'<span class="mb-0">'.parent::send_payment_purpose()[$purpose].'</span>\'+
+                                    \'</li>\'+
+                                    \'<li class="list-group-item d-flex px-0 justify-content-between">\'+
+                                        \'<strong>Amount:</strong>\'+
+                                        \'<span class="mb-0">$'.$send_amount.' <i class="m-1 fa fa-arrow-right text-info"></i> '.$actual_send_amount.' '.$bank_currency.' </span>\'+
+                                    \'</li>\'+
+                                    \'<li class="list-group-item d-flex px-0 justify-content-between">\'+
+                                        \'<strong>Fees</strong>\'+
+                                        \'<span class="mb-0">$'.$send_fees.'</span>\'+
+                                    \'</li>\'+
+                                    \'<li class="list-group-item d-flex px-0 justify-content-between">\'+
+                                        \'<strong>Total</strong>\'+
+                                        \'<span class="mb-0 text-success">$'.$total_amount.'</span>\'+
+                                    \'</li>\'+
+
+                                \'</ul>\');
+
+                                        $("#payment_confirm_modal").modal("show");
+                                         $("#previewMsg").html("");
+                                        $("#payment_confirm_input").val("1");
+                                      
+
+                </script>';
+
+                else
+                     return '<script>
+            $("#payment_confirm_input").val("0")
+            $("#payment_confirm_modal").modal("hide");
+            swal("New Bank Added", "You can now send payment to this recipient", "success");
+            </script>';
+
+               
+
+            }
+            else
+                return parent::get_error_msg('We are unable to process your request at the moment! Please try again later.');
+
+
+
+
+
+
+
+
+
 
     }
 }

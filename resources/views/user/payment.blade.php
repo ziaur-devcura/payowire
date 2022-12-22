@@ -88,6 +88,8 @@
                                     </div>
                             </div>
 
+                             
+
 
                             <script type="text/javascript">
                                     function choose_payment_bank(selected,recipient_type)
@@ -121,6 +123,8 @@
 
     }
                             </script>
+
+                             @include('helper/elm_form_submit',['parent' => 'fetch_bank_result','click' => 'sendmoneyCLick','formid'=>'sendmoneyForm','msg'=>'sendmoneyMsg'])
 
 
 
@@ -218,7 +222,46 @@
 
                                      @include('helper/basic_form_submit',['click' => 'addBankclick','formid'=>'addBankForm','msg'=>'addBankMsg'])
 
-                                     @include('helper/basic_form_submit',['click' => 'sendmoneyCLick','formid'=>'sendmoneyForm','msg'=>'sendmoneyMsg'])
+
+
+
+ <!-- preview modal -->
+                                    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="payment_confirm_modal">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Payment (Preview)</h5>
+                                                    <button onclick="close_preview(0,'#payment_confirm_modal')" type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                  
+                                                        <div class="mb-3 row" id="preview_result">
+
+                                                   
+                                                        </div>
+
+
+
+                                        <div id="previewMsg" class="mb-3 text-center">
+                                        </div>
+
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button onclick="close_preview(0,'#payment_confirm_modal')" type="button" class="btn btn-danger light">Close</button>
+                                                    <button id="previewClick" type="button" class="btn btn-primary">Confirm</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                      @include('helper/basic_form_submit',['click' => 'previewClick','formid'=>'sendmoneyForm','msg'=>'previewMsg'])
+
+
+                                   
 
                                    
 

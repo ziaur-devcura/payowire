@@ -64,7 +64,7 @@ Route::post('/user/createCard/createMasterCard', [create_card::class,'craete_mas
 Route::get('/user/cardlist/freeze/{id}', [cardlist::class,'update_card'])->middleware('userAuth','XssProtection')->name('user.update_card.status');
 Route::post('/user/cardlist/add_fund/{id}', [cardlist::class,'update_card'])->middleware('userAuth','XssProtection')->name('user.update_card.addfund');
 Route::post('/user/cardlist/remove_fund/{id}', [cardlist::class,'update_card'])->middleware('userAuth','XssProtection')->name('user.update_card.removefund');
-Route::post('/user/payment/make', [payment::class,'make_payment'])->middleware('userAuth','XssProtection')->name('user.make_payment');
+Route::post('/user/payment/make', [payment::class,'add_bank_payment'])->middleware('userAuth','XssProtection')->name('user.make_payment');
 Route::post('/user/payment/fetch_bank/{id}', [payment::class,'fetch_payment_bank'])->middleware('userAuth','XssProtection')->name('user.payment.fetch_bank');
 Route::post('/user/payment/sendpaymentdo', [payment::class,'send_paymentdo'])->middleware('userAuth','XssProtection')->name('user.payment.send');
 

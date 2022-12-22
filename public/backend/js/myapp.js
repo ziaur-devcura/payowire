@@ -1,8 +1,6 @@
           $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
-
-
           
 
     $('.all_amount').on('input',function(){
@@ -27,11 +25,7 @@
     $(this).val(val); 
 });
 
-
-function amount_input()
-{
-
-        $('.amount').on('input',function(){
+$('.content-body').on('input', '.amount', function(){
     var val = $(this).val();
     if(isNaN(val)){
          val = val.replace(/[^0-9\.]/g,'');
@@ -41,9 +35,11 @@ function amount_input()
        val =val.replace(/\.+$/,"");
      }
     }
+    else
+         val = val.replace(/[^0-9\.]/g,'');
+
     $(this).val(val); 
 });
-    }
 
 
              $('.only-digit').on('input',function(){
@@ -72,94 +68,11 @@ function amount_input()
 
 
  // Select2
-        //if (jQuery().select2) {
-
-         /*$('[data-toggle="select2"]').each(function()
-         {
-            $(this).select2({
-                dropdownParent: $(this).parent()
-            })
-         })*/
-
-            /*$('[data-toggle="select2"]').select2({
-                    dropdownParent: $('[data-toggle="select2"]').parent()
-                  dropdownParent: $('.modal-content')
-                   });*/
-        //}
-
-
-
-    $('.select2').each(function () {
-            $(this).select2({
-                dropdownParent: $(this).parent()
-            });
-        });
-
-
-
-
-
-    function euro_country()
-    {
-        return {
-    "Austria": "Austria",
-    "Belgium": "Belgium",
-    "Uruguey": "Uruguey",
-    "United Kingdom": "United Kingdom",
-    "Vietnum": "Vietnum",
-    "Turkey": "Turkey",
-    "Thailand": "Thailand",
-    "Chile": "Chile",
-    "Canada": "Canada",
-    "Bulgaria": "Bulgaria",
-    "Brazil": "Brazil",
-    "Croatia": "Croatia",
-    "Cyprus": "Cyprus",
-    "Czech republic": "Czech republic",
-    "Denmark": "Denmark",
-    "Egypt": "Egypt",
-    "Estonia": "Estonia",
-    "Finland": "Finland",
-    "France": "France",
-    "Germany": "Germany",
-    "Greece": "Greece",
-    "Hong kong": "Hong kong",
-    "Hungry": "Hungry",
-    "Iceland": "Iceland",
-    "India": "India",
-    "Indonesia": "Indonesia",
-    "Ireland": "Ireland",
-    "Japan": "Japan",
-    "Italy": "Italy",
-    "Korea": "Korea",
-    "Lativa": "Lativa",
-    "Liechtenstein": "Liechtenstein",
-    "Lithnia": "Lithnia",
-    "Luxembourg": "Luxembourg",
-    "Malaysia": "Malaysia",
-    "Malta": "Malta",
-    "Martinique": "Martinique",
-    "Mayotte": "Mayotte",
-    "Mexico": "Mexico",
-    "Monaco": "Monaco",
-    "Nepal": "Nepal",
-    "Netherlands": "Netherlands",
-    "Newzeland": "Newzeland",
-    "Norway": "Norway",
-    "Pakistan": "Pakistan",
-    "Peru": "Peru",
-    "Philippines": "Philippines",
-    "Poland": "Poland",
-    "Portugal": "Portugal",
-    "Romania": "Romania",
-    "Saint Pierre and Miquelon": "Saint Pierre and Miquelon",
-    "Singapore": "Singapore",
-    "Slovakia": "Slovakia",
-    "Spain": "Spain",
-    "Srilanka": "Srilanka",
-    "Sween": "Sween"
-};
-    }
+        if (jQuery().select2) {
+            $('[data-toggle="select2"]').select2({
+                   dropdownParent: $('.modal')
+                   });
+        }
 
 
 
@@ -321,10 +234,10 @@ function payment_add_bank_backBtn(elm){
         $('#step1').removeClass('d-none');
 
     }
+
+
+
+
+
 }
 
-// init
-
-amount_input();
-
-    

@@ -417,14 +417,13 @@ class Controller extends BaseController
 
     public function call_curl($url,$header="",$method='POST',$data="")
     {
-
-  
+   
         $ch = curl_init($url);
-        if(isset($data))
+        if(isset($data) && !empty($data))
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        if(isset($method))
+        if(isset($method) && !empty($method))
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-        if(isset($header))
+        if(isset($header) && !empty($header))
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
@@ -443,14 +442,23 @@ class Controller extends BaseController
 
         $get_currency_data =  json_decode($get_setting->currency_data);
 
+        $update = 0;
+
         if(!isset($get_currency_data->timestamp))
-            return 0;
+            $update = 1;
+
+        else
+        {
 
         $starttimestamp = strtotime($get_currency_data->timestamp);
         $endtimestamp = strtotime(time());
         $difference = abs($endtimestamp - $starttimestamp)/3600;
 
         if($difference>24)
+            $update=1;
+        }
+
+        if($update==1)
         {
             $url = 'https://api.apilayer.com/currency_data/live';
 
@@ -459,11 +467,15 @@ class Controller extends BaseController
     "apikey: BvU7zSn0jRb0XuQN6UMJ5pWuDfyNuDsv"
         );
 
-    $response = json_decode($this->call_curl($url,$headers,'GET',''));
+    $raw_response = $this->call_curl($url,$headers,"GET",'');
 
-    if(isset($response->quotes))
+    $response = json_decode($raw_response);
+
+
+  
+    if(isset($response->success) && $response->success == true)
     {
-        $sql = $get_setting_table->where('id',1)->update((['currency_data' => $response]));
+        $sql = $get_setting_table->where('id',1)->update((['currency_data' => $raw_response]));
         if($sql)
         return 1;
     else
@@ -477,6 +489,15 @@ class Controller extends BaseController
             return 1;
 
 
+    }
+
+
+
+    // send_payment_purpose
+
+    public function send_payment_purpose()
+    {
+        return array("","Salary","Personal Remittance","Family Support","Living Expenses","Travel","Good Purchased","Professional Business Services");
     }
 
 

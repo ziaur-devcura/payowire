@@ -30,6 +30,8 @@ class swift_bic_validation implements Rule
     {
          if(!$this->controller->validate_swift_bic($value))
                 return false;
+            else
+                return true;
             
     }
 
