@@ -22,16 +22,16 @@
 
                             <ul class="links">
                                 <li>
-                                    <a href="about.php">About us</a>
+                                    <a href="{{route('about')}}">About us</a>
                                 </li>
                                 <li>
-                                    <a href="globalaccount.php">Global Account</a>
+                                    <a href="{{route('globalAccount')}}">Global Account</a>
                                 </li>
                                 <li>
-                                    <a href="cards.php">Cards</a>
+                                    <a href="{{route('cards')}}">Cards</a>
                                 </li>
                                 <li>
-                                    <a href="payment.php">Payment</a>
+                                    <a href="{{route('payment')}}">Payment</a>
                                 </li>
                             </ul>
                         </div>
@@ -43,16 +43,16 @@
 
                             <ul class="links">
                                 <li>
-                                    <a href="faq.php">Faq</a>
+                                    <a href="{{route('faq')}}">Faq</a>
                                 </li>
                                 <li>
-                                    <a href="terms.php">Terms and conditions</a>
+                                    <a href="{{route('terms')}}">Terms and conditions</a>
                                 </li>
                                 <li>
-                                    <a href="policy.php">Privacy policy</a>
+                                    <a href="{{route('policy')}}">Privacy policy</a>
                                 </li>
                                 <li>
-                                    <a href="contact.php">Contact Us</a>
+                                    <a href="{{route('contact')}}">Contact Us</a>
                                 </li>
                             </ul>
                         </div>
@@ -92,16 +92,13 @@ Sheridan, WY 82801, US
 
         <div class="go-top"><i class="fas fa-arrow-up"></i></div>
 
-        <!-- Dark/Light Toggle -->
-		<div class="dark-version">
-            <label id="switch" class="switch">
-                <input type="checkbox" onchange="toggleTheme()" id="slider">
-                <span class="slider round"></span>
-            </label>
-        </div>
+       
 
         <!-- Links of JS files -->
+        
         <script src="{{URL::asset('frontend/assets/js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{URL::asset('backend/vendor/sweetalert2/dist/sweetalert2.min.js')}}"></script>
+        <script src="{{URL::asset('frontend/assets/js/bootstrap-datepicker.min.js')}}"></script>
         <script src="{{URL::asset('frontend/assets/js/meanmenu.js')}}"></script>
         <script src="{{URL::asset('frontend/assets/js/nice-select.min.js')}}"></script>
         <script src="{{URL::asset('frontend/assets/js/slick.min.js')}}"></script>
@@ -121,7 +118,12 @@ Sheridan, WY 82801, US
     window.__lc = window.__lc || {};
     window.__lc.license = 14759844;
     ;(function(n,t,c){function i(n){return e._h?e._h.apply(null,n):e._q.push(n)}var e={_q:[],_h:null,_v:"2.0",on:function(){i(["on",c.call(arguments)])},once:function(){i(["once",c.call(arguments)])},off:function(){i(["off",c.call(arguments)])},get:function(){if(!e._h)throw new Error("[LiveChatWidget] You can't use getters before load.");return i(["get",c.call(arguments)])},call:function(){i(["call",c.call(arguments)])},init:function(){var n=t.createElement("script");n.async=!0,n.type="text/javascript",n.src="https://cdn.livechatinc.com/tracking.js",t.head.appendChild(n)}};!n.__lc.asyncInit&&e.init(),n.LiveChatWidget=n.LiveChatWidget||e}(window,document,[].slice))
+
+
+
 </script>
+
+
 <noscript><a href="https://www.livechat.com/chat-with/14759844/" rel="nofollow">Chat with us</a>, powered by <a href="https://www.livechat.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a></noscript>
 <!-- End of LiveChat code -->
     </body>

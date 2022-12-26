@@ -202,6 +202,7 @@ function clear_card_addFund()
 
                                     function clear_bank_req()
                                     {
+                                        $("#req_bank_select").removeClass("d-none");
                                         $('#reqMsg').html('');
 
                                          if($('#req_bank_confirm').length)
@@ -230,14 +231,10 @@ function payment_add_bank_backBtn(elm){
         $("#addBankclick").html("Next");
         $("#addBankMsg").html('');
         $("#add_bank_confirm").val(0);
-        $('#step2').html('');
-        $('#step1').removeClass('d-none');
+        $('#add_bank_step2').html('');
+        $('#add_bank_step1').removeClass('d-none');
 
     }
-
-
-
-
 
 }
 

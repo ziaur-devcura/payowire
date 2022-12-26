@@ -33,7 +33,8 @@ class payment extends Controller
         $confirm = $request->confirm;
 
         $personal_common_data = '\'<div class="mb-3 row"><label class="form-label">First Name</label><input type="text" name="ben_firstname" class="form-control" placeholder="Enter beneficiary first name"></div>\' +
-                                         \'<div class="mb-3 row"><label class="form-label">Last Name</label><input type="text" name="ben_lastname" class="form-control" placeholder="Enter beneficiary last name"></div>\' +';
+                                         \'<div class="mb-3 row"><label class="form-label">Last Name</label><input type="text" name="ben_lastname" class="form-control" placeholder="Enter beneficiary last name"></div>\' +
+                                         \'<div class="mb-3 row"><label class="form-label">Beneficiary Address</label><input type="text" name="ben_address" class="form-control" placeholder="Enter beneficiary address"></div>\' +';
 
         if($confirm == 1)
         {
@@ -44,13 +45,13 @@ class payment extends Controller
             $bank_name = $request->bank_name;
             $account_number = $request->account_number;
             $routing_number = $request->routing_number;
-            $bank_address = $request->bank_address;
+            $ben_address = $request->ben_address;
             $iban = $request->iban;
             $swift_code = $request->swift_code;
 
             $userdata = parent::get_auth_user();
 
-            $add_bank = parent::insert_payment_bank($bank_type,$bank_country,$recipient_type,$ben_firstname,$ben_lastname,$bank_name,$account_number,$routing_number,$bank_address,$iban,$swift_code,$userdata->id);
+            $add_bank = parent::insert_payment_bank($bank_type,$bank_country,$recipient_type,$ben_firstname,$ben_lastname,$bank_name,$account_number,$routing_number,$ben_address,$iban,$swift_code,$userdata->id);
 
             if(isset($add_bank->id))
                 return '<script>
@@ -69,6 +70,9 @@ class payment extends Controller
         if(isset(parent::sepa_payment_country()[$bank_country]))
         {
             $sepa_country = parent::sepa_payment_country()[$bank_country];
+
+            if(isset(parent::get_payment_country_code()[$sepa_country]))
+
             $iban_country = parent::get_payment_country_code()[$sepa_country];
 
             if(!empty($iban_country))
@@ -83,11 +87,10 @@ class payment extends Controller
             return '<script>          $("#addBankCloseBtn").html("Back");
                                          $("#addBankclick").html("Confirm");
                                          $("#add_bank_confirm").val(1);
-                                         $("#step1").addClass("d-none");
-                                         $("#step2").html('.$personal_common_data.'\'<div class="mb-3 row"><label class="form-label">Bank Name</label><input type="text" name="bank_name" class="form-control" placeholder="Enter bank name"></div>\' +
+                                         $("#add_bank_step1").addClass("d-none");
+                                         $("#add_bank_step2").html('.$personal_common_data.'\'<div class="mb-3 row"><label class="form-label">Bank Name</label><input type="text" name="bank_name" class="form-control" placeholder="Enter bank name"></div>\' +
                                     \'<div class="mb-3 row"><label class="form-label">IBAN</label><input type="text" name="iban" class="form-control" placeholder="'.$iban_example.'"></div>\' +
-                                    \'<div class="mb-3 row"><label class="form-label">Swift Code</label><input type="text" name="swift_code" class="form-control" placeholder="Enter swift/bic"></div>\'+
-                                    \'<div class="mb-3 row"><label class="form-label">Bank Address</label><input type="text" name="bank_address" class="form-control" placeholder="Enter bank address"></div>\');
+                                    \'<div class="mb-3 row"><label class="form-label">Swift Code</label><input type="text" name="swift_code" class="form-control" placeholder="Enter swift/bic"></div>\');
                                      </script>';
 
         }
@@ -95,13 +98,12 @@ class payment extends Controller
         {
 
              return '<script>     $("#addBankCloseBtn").html("Back");
-                                         $("#step1").addClass("d-none");
+                                         $("#add_bank_step1").addClass("d-none");
                                          $("#addBankclick").html("Confirm");
                                          $("#add_bank_confirm").val(1);
-                                         $("#step2").html('.$personal_common_data.'\'<div class="mb-3 row"> <label class="form-label">Bank Name</label><input type="text" name="bank_name" class="form-control" placeholder="Enter bank name"></div>\' +
+                                         $("#add_bank_step2").html('.$personal_common_data.'\'<div class="mb-3 row"> <label class="form-label">Bank Name</label><input type="text" name="bank_name" class="form-control" placeholder="Enter bank name"></div>\' +
                                     \'<div class="mb-3 row"><label class="form-label">Account Number</label><input type="text" name="account_number" class="form-control" placeholder="Enter account number"></div>\' +
-                                    \'<div class="mb-3 row"><label class="form-label">Routing Number</label><input type="text" name="routing_number" class="form-control" placeholder="Enter routing number"></div>\'+
-                                    \'<div class="mb-3 row"><label class="form-label">Bank Address</label><input type="text" name="bank_address" class="form-control" placeholder="Enter bank address"></div>\');
+                                    \'<div class="mb-3 row"><label class="form-label">Routing Number</label><input type="text" name="routing_number" class="form-control" placeholder="Enter routing number"></div>\');
                                      </script>';
 
         }
@@ -299,6 +301,8 @@ class payment extends Controller
 
         $mydata = parent::get_auth_user();
 
+        $setting = parent::get_setting();
+
 
         $payment_bank_table = parent::get_paymentBank_table();
 
@@ -331,9 +335,9 @@ class payment extends Controller
 
                 // fees
                 $actual_send_amount = parent::fetch_balance($actual_send_amount);
-                $send_fees = parent::fetch_balance(500);
+                $send_fees = parent::fetch_balance($setting->payment_fees);
                 $send_amount = parent::fetch_balance($unpack_sendAmount);
-                $total_amount = parent::fetch_balance(500 + $unpack_sendAmount);
+                $total_amount = parent::fetch_balance($setting->payment_fees + $unpack_sendAmount);
 
 
                 if($confirm!=1)
@@ -375,25 +379,35 @@ class payment extends Controller
                 </script>';
 
                 else
-                     return '<script>
-            $("#payment_confirm_input").val("0")
-            $("#payment_confirm_modal").modal("hide");
-            swal("New Bank Added", "You can now send payment to this recipient", "success");
-            </script>';
+                {
 
-               
+                    $unpack_total_amount = $setting->payment_fees + $unpack_sendAmount;
 
+                     // adjust balance
+
+                      $adjust_balance = parent::adjust_balance($mydata->id,2,$unpack_total_amount);
+
+                      if($adjust_balance == 1)
+                      {
+                         // insert transaction
+                         parent::insert_transaction(7,$unpack_total_amount,$mydata->balance,($mydata->balance-$unpack_total_amount),1,$mydata->id);
+
+                           return '<script>
+                    
+                $("#payment_confirm_input").val("0")
+                $("#payment_confirm_modal").modal("hide");
+                swal("Payment Sent", "You have sent '.$actual_send_amount.' '.$bank_currency.' successfully to '.$check_bank_account->bank_name.'", "success");
+                </script>';
+
+                          }
+                          else
+                            return parent::get_error_msg('We are unable to process your request at the moment! Please try again later.');
+
+                
+                }
             }
-            else
-                return parent::get_error_msg('We are unable to process your request at the moment! Please try again later.');
-
-
-
-
-
-
-
-
+                else
+                    return parent::get_error_msg('We are unable to process your request at the moment! Please try again later.');
 
 
     }

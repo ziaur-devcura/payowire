@@ -166,7 +166,7 @@
                                                         <input type="hidden" id="add_bank_confirm" name="confirm" value="0">
 
 
-                                                        <div id="step1">
+                                                        <div id="add_bank_step1">
 
                                                         <div class="mb-3 row">
                                                             <label class="form-label">Bank Type</label>
@@ -202,7 +202,7 @@
 
                                                     </div>
 
-                                                    <div id="step2"></div>
+                                                    <div id="add_bank_step2"></div>
 
 
                                         <div id="addBankMsg" class="mb-3 text-center">

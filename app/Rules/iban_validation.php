@@ -34,7 +34,6 @@ class iban_validation implements Rule
     public function passes($attribute, $value)
     {
 
-        //print_r($value);
           
           if(isset($this->controller->sepa_payment_country()[$this->country]))
           {

@@ -29,10 +29,31 @@ use App\Http\Controllers\user\transaction;
 #				  #
 ###################
 
+Route::get('/', [login::class,'homeView'])->name('homeview');
+Route::get('/globalAccount', [login::class,'global_account_view'])->name('globalAccount');
+Route::get('/receiveMoney', [login::class,'receive_money_view'])->name('receiveMoney');
+Route::get('/sendMoney', [login::class,'send_money_view'])->name('sendMoney');
+Route::get('/bankWithdraw', [login::class,'bank_withdraw_view'])->name('bankWithdraw');
+Route::get('/virtualcard', [login::class,'virtualcard_view'])->name('virtualcard');
+Route::get('/virtualMastercard', [login::class,'virtual_mastercard_view'])->name('virtualMastercard');
+Route::get('/virtualVisacard', [login::class,'virtual_visacard_view'])->name('virtualVisacard');
+Route::get('/physicalcard', [login::class,'physical_card_view'])->name('physicalcard');
+Route::get('/pricing', [login::class,'pricing_view'])->name('pricing');
+Route::get('/about', [login::class,'about_view'])->name('about');
+Route::get('/contact', [login::class,'contact_view'])->name('contact');
+Route::get('/cards', [login::class,'cards_view'])->name('cards');
+Route::get('/payment', [login::class,'payment_view'])->name('payment');
+Route::get('/faq', [login::class,'faq_view'])->name('faq');
+Route::get('/terms', [login::class,'terms_view'])->name('terms');
+Route::get('/policy', [login::class,'policy_view'])->name('policy');
+
+
 Route::get('/login', [login::class,'loginView'])->name('login');
-
+Route::get('/register', [home::class,'signupView'])->name('signup');
+Route::get('/user_logout', [home::class,'logout'])->name('user_logout');
 Route::post('/logindo', [login::class,'logindo'])->middleware('XssProtection')->name('logindo');
-
+Route::post('/signupdo', [login::class,'signupdo'])->middleware('XssProtection')->name('signupdo');
+Route::get('/activate_account/{code}', [login::class,'activate_account'])->name('activate_account');
 
 ###################
 #				  #

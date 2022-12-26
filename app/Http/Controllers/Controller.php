@@ -51,6 +51,8 @@ class Controller extends BaseController
 
     }
 
+  
+
     // gateway table
 
 
@@ -72,6 +74,70 @@ class Controller extends BaseController
         return $this->get_gateway_table()->where('name','karta')->first();
 
     }
+
+
+     // airwallex gateway
+
+    public function get_airwallex_gateway()
+    {
+
+        return $this->get_gateway_table()->where('name','airwallex')->first();
+
+    }
+
+
+    // update airwallex token
+
+    public function update_airwallex_api()
+    {
+
+          $setting = $this->get_airwallex_gateway();
+        
+        if((isset($setting->api_key) && !empty($setting->api_key)) && (isset($setting->client_id) && !empty($setting->client_id)))
+        {
+
+            $gateway_table = $this->get_gateway_table();
+
+        $url = 'https://api.airwallex.com/api/v1/authentication/login';
+
+        $headers = array(
+        'Content-type: application/json',
+        'x-api-key: '.$setting->api_key.'',
+        'x-client-id: '.$setting->client_id.''
+            );
+
+       
+        $response= json_decode($this->call_curl($url,$headers,'POST',''));
+
+
+        if(isset($response->token))
+        {
+            if($gateway_table->where('name','airwallex')->update(['access_token' => $response->token]))
+                return 1;
+            else return 0;
+        }
+        else
+            return 0;
+
+        }
+        else
+            return 1;
+    }
+
+
+    // airwallex send payment to bank
+
+    public function airwallex_send_payment_api(object $bank_account,$amount,$purpose)
+    {
+
+
+    }
+
+
+
+
+
+
 
      public function get_card_table()
     {
@@ -333,7 +399,7 @@ class Controller extends BaseController
         if(!empty($amount))
         return number_format($amount/100,2);
         else
-            return null;
+            return 0;
     }
 
     public function unpack_balance($amount)
@@ -341,7 +407,7 @@ class Controller extends BaseController
         if(!empty($amount))
         return $amount*100;
         else
-            return null;
+            return 0;
     }
 
     public function get_mod_User()

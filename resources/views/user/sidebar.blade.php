@@ -9,7 +9,7 @@
 						<a class="nav-link" href="javascript:void(0);" role="button">
 							<img src="{{URL::asset('backend/images/profile/pic1.jpg')}}" width="20" alt=""/>
 							<div class="header-info ms-3">
-								<span class="font-w600 "><b>{{ explode(" ",$userData->name)[0] }}</b></span>
+								<span class="font-w600 "><b>{{ $userData->firstname}}</b></span>
 								<small class="text-left font-w400 text-break">{{ $userData->email }}</small>
 							</div>
 						</a>
@@ -94,7 +94,7 @@
                     
                     </li>
 
-                     <li><a class="ai-icon" href="javascript:void()">
+                     <li><a class="ai-icon" href="{{route('user_logout')}}">
                             <i class="flaticon-022-copy"></i>
                             <span class="nav-text">Logout</span>
                         </a>

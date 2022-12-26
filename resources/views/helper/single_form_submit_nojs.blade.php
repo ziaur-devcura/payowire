@@ -41,7 +41,7 @@ $.post($("#{{$formid}}").attr("action"),$("#{{$formid}} :input").serializeArray(
         else
             $("#{{$msg}}").html('<div class="alert alert-danger alert-dismissible text-start" role="alert"><ul>'+$("#{{$msg}}").html()+'</ul><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
 
-        if(count==1)
+        if(count<2)
         {
             $('.reponse_item').removeClass('reponse_item');
             $('.text-start').addClass('text-center').removeClass('text-start');

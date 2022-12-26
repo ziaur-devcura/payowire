@@ -42,14 +42,10 @@ class add_bank_payment extends FormRequest
             'confirm' => 'nullable|integer|digits_between:0,1',
             'ben_firstname' => 'required_if:confirm,1|max:255',
             'ben_lastname' => 'required_if:confirm,1|max:255',
+            'ben_address' => 'required_if:confirm,1|max:255',
             'bank_name' => 'required_if:confirm,1|max:255'
         ];
 
-
-           $rules2 =  [
-            'bank_address' => 'required_if:confirm,1|max:255',
-            'bank_address' => 'required_if:confirm,1|max:255'
-        ];
 
 
 
@@ -57,12 +53,13 @@ class add_bank_payment extends FormRequest
 
         if(isset(request()->bank_country))
       {
+
         if(isset($controller->sepa_payment_country()[request()->bank_country]))
         {
              $additionalRules = [
 
-            'iban' => ['required_if:confirm,1|max:40',new iban_validation(request()->bank_country)],
-            'swift_code' => ['required_if:confirm,1|max:12',new swift_bic_validation]
+            'iban' => 'required_if:confirm,1|max:40',new iban_validation(request()->bank_country),
+            'swift_code' => 'required_if:confirm,1|max:12',new swift_bic_validation
           ];
 
         }
@@ -78,7 +75,8 @@ class add_bank_payment extends FormRequest
       }
 
 
-         return $rules1+$additionalRules+$rules2;
+
+         return $rules1+$additionalRules;
     }
 
 
@@ -98,8 +96,8 @@ class add_bank_payment extends FormRequest
             'ben_lastname.max' => 'Beneficiary last name reach max lenght',
             'bank_name.required_if' => 'Please enter bank name',
             'bank_name.max' => 'Bank name reach max lenght',
-            'bank_address.required_if' => 'Please enter bank address',
-            'bank_address.max' => 'Bank address reach max lenght',
+            'ben_address.required_if' => 'Please enter beneficiary address',
+            'ben_address.max' => 'Beneficiary address reach max lenght',
 
             // addtional field
             'iban.required_if' => 'Please enter IBAN',
@@ -110,10 +108,6 @@ class add_bank_payment extends FormRequest
             'account_number.max' => 'Account number reach max lenght',
             'routing_number.required_if' => 'Please enter bank routing number',
             'routing_number.max' => 'Routing number reach max lenght',
-
-
-
-
 
         ];
     }

@@ -238,7 +238,8 @@
                         <ul class="navbar-nav header-right">
 							
 							<li class="nav-item dropdown notification_dropdown">
-                               <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 24" fill="none" stroke-width="2.4" stroke="#4f7086" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                                <a href="{{route('user_logout')}}">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 24" fill="none" stroke-width="2.4" stroke="#4f7086" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></a>
 							
 							</li>
                           
