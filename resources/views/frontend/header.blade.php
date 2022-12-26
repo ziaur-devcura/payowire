@@ -111,11 +111,18 @@
         </style>
     </head>
 
-        <!-- Preloader -->
+       <!-- Preloader -->
         <div class="preloader">
             <div class="loader">
-                <div class="shadow"></div>
-                <div class="box"></div>
+                <div class="wrap">
+                  <div class="loading ">
+                       <img class="rt_logos" width="64" src="{{URL::asset('frontend/assets/img/favicon.png')}}">
+                    
+                    <div class="text">Payowire</div>
+                  </div>
+                </div>
+                <!--<div class="shadow"></div>-->
+                <!--<div class="box"></div>-->
             </div>
         </div>
         <!-- End Preloader -->
