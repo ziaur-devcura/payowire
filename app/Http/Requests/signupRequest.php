@@ -36,6 +36,7 @@ class signupRequest extends FormRequest
             ->symbols()
             ->uncompromised(),
             'userDob' => 'required|date_format:d/m/Y|before: 18 years ago',
+            'agreement' => 'accepted',
             'gcap_token' => 'required', new gcaptcha_verify('6LdjaLAjAAAAABBP-rDdpWOCWJ-HxP6ae_6xwxjL')
 
         ];
@@ -58,6 +59,7 @@ class signupRequest extends FormRequest
             'userDob.required' => 'The date of birth field is required',
             'userDob.date_format' => 'The date of birth format was incorrect',
             'userDob.after' => 'You must be 18 years old or above',
+            'agreement.accepted' => 'You must agree with user ggreement and privacy policy',
             'gcap_token.required' => 'Please complete captcha verification'
         ];
     }

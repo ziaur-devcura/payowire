@@ -4,13 +4,13 @@
  <!-- Start Login Area -->
         <section class="login-area currency-transfer-provider-with-background-color">
             <div class="container">
-            <div class="row" style="padding-top: 120px;
+            <div class="row ps-3 pe-3" style="padding-top: 120px;
     padding-bottom: 100px;">
         
-                <div class="col-lg-6 col-md-12 p-4 m-auto">
+                <div class="col-md-7 p-4 m-auto" style="border: 1px solid #ff6a00;">
                  
                        
-                                <div class="login-form">
+                                <div class="login-form col-md-10 m-auto">
                                 
 
                                     <h3>Payowire Sign Up</h3>
@@ -91,17 +91,33 @@
                                             <input readonly id="datepicker" type="text" name="userDob"  placeholder="Your date of birth" class="form-control">
                                         </div>
 
+                                         <div class="form-group mt-2">
+                                                                         <label>
+   
+        <input name="agreement" type="checkbox" class="ant-checkbox-input" >
+     
+      <span>I agree with the <a  href="{{route('terms')}}" target="_blank" rel="noreferrer"><u>User Agreement</u></a> and <a href="{{route('policy')}}" target="_blank" rel="noreferrer"><u>Privacy Policy</u></a>
+      </span>
+    </label>
+                                        </div>
+
+          
+
                                         <div class="form-group">
                                            <input id="gcap_token" type="hidden" name="gcap_token">
                                     <div id="recaptcha-holder"></div>
                                         </div>
 
+                                        <div class="form-group text-center">
+                                           <button id="loginClick" type="submit" class="btn btn-primary mt-3">Register</button>
+                                      
+                                        </div>
+
                                       
 
-                                        <button id="loginClick" type="submit" class="btn btn-primary mt-3">Register</button>
-                                      
+                                       
 
-                                        <div class="form-group mt-2" id="msg">
+                                        <div class="form-group mt-2 text-center" id="msg">
                                         </div>
 
                                         </div>

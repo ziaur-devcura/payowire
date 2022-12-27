@@ -65,7 +65,7 @@
 
 $("#{{$click}}").click(function(){
 
-    $("#{{$msg}}").html('<div class="spinner-border text-primary" role="status"></div>');
+    $("#{{$msg}}").html('<div class="spinner-border text-primary text-center" role="status"></div>');
 
 
       grecaptcha.execute(widget1, { action: 'homepage' }).then(function (recaptchaToken) {

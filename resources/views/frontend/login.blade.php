@@ -45,7 +45,7 @@
                                             <a href="forgetpass.php">Forgot Password?</a>
                                         </div>
 
-                                        <div class="form-group mt-2" id="msg">
+                                        <div class="form-group mt-2 text-center" id="msg">
                                         </div>
 
                                    

@@ -22,7 +22,7 @@
 
                             <ul class="links">
                                 <li>
-                                    <a href="{{route('about')}}">About us</a>
+                                   <a href="{{route('faq')}}">Faq</a>
                                 </li>
                                 <li>
                                     <a href="{{route('globalAccount')}}">Global Account</a>
@@ -42,9 +42,7 @@
                             <h3>Support</h3>
 
                             <ul class="links">
-                                <li>
-                                    <a href="{{route('faq')}}">Faq</a>
-                                </li>
+                               
                                 <li>
                                     <a href="{{route('terms')}}">Terms and conditions</a>
                                 </li>
@@ -53,6 +51,10 @@
                                 </li>
                                 <li>
                                     <a href="{{route('contact')}}">Contact Us</a>
+                                </li>
+
+                                 <li>
+                                    <a href="{{route('aml')}}">AML Policy</a>
                                 </li>
                             </ul>
                         </div>
