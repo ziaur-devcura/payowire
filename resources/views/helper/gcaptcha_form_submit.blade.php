@@ -1,7 +1,5 @@
            <script  type="text/javascript">
 
-
-
                  var CaptchaCallback = function() {
        
            widget1 = grecaptcha.render('recaptcha-holder',{

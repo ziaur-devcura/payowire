@@ -31,10 +31,17 @@ class gcaptcha_verify implements Rule
      */
     public function passes($attribute, $value)
     {
+
+        if(isset($value) && !empty($value))
+        {
           $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$this->secret.'&response='.$value);
+        
         $responseData = json_decode($verifyResponse);
         if($responseData->success)
         return true;
+        else
+            return false;
+        }
         else
             return false;
     }
