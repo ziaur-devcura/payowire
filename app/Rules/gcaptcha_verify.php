@@ -53,6 +53,6 @@ class gcaptcha_verify implements Rule
      */
     public function message()
     {
-        return 'Sorry, captcha validation failed. Please try again.<script>$("#recaptcha-holder").html("");grecaptcha.reset(0);</script>';
+        return 'Sorry, captcha validation failed. Please try again.';
     }
 }

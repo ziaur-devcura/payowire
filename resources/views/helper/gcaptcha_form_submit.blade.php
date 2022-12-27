@@ -11,13 +11,16 @@
             $('#gcap_token').val(recaptchaToken)
 
        $.post($("#{{$formid}}").attr("action"),$("#{{$formid}} :input").serializeArray(),function(info){
-  
+        
+  grecaptcha.reset();
     
     $("#{{$msg}}").html(info);
     $("#{{$click}}").attr("disabled", false);
     //clearInput();
   })
   .fail( function(xhr, textStatus, errorThrown) {
+
+    grecaptcha.reset();
 
       $("#{{$msg}}").html("");
 
@@ -53,6 +56,8 @@
     });
             
           }
+
+
         });
       
     };
