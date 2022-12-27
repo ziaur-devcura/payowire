@@ -1,4 +1,5 @@
 @include('frontend/header')
+<script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer></script>
  <!-- Start Login Area -->
         <section class="login-area currency-transfer-provider-with-background-color">
             <div class="row m-0">
@@ -13,12 +14,7 @@
                         <div class="d-table">
                             <div class="d-table-cell">
                                 <div class="login-form text-start">
-                                    <div class="logo black-logo">
-                                        <a href="index.php"><img src="{{URL::asset('frontend/assets/img/black-logo.png')}}" alt="image"></a>
-                                    </div>
-                                    <div class="logo white-logo">
-                                        <a href="index.php"><img src="{{URL::asset('frontend/assets/img/logo.png')}}" alt="image"></a>
-                                    </div>
+                                 
 
                                     <h3>Welcome back</h3>
                                     <p>Do You Want To Open An Account? <a href="{{route('signup')}}">Sign up</a></p>
@@ -34,6 +30,14 @@
                                             <label>Password</label>
                                             <input type="password" name="userPass"  placeholder="Your password" class="form-control">
                                         </div>
+
+                                        
+                                         <div class="form-group">
+                                           <input id="gcap_token" type="hidden" name="gcap_token">
+                                    <div id="recaptcha-holder"></div>
+                                        </div>
+
+                                        
 
                                         <button id="loginClick" type="submit" class="btn btn-primary mt-3">Login</button>
                                         
@@ -55,7 +59,7 @@
         </section>
         <!-- End Login Area -->
 
-        @include('helper/single_form_submit_nojs',['click' => 'loginClick','formid'=>'loginform','msg'=>'msg'])
+        @include('helper/gcaptcha_form_submit',['click' => 'loginClick','formid'=>'loginform','msg'=>'msg','sitekey'=>'6LdjaLAjAAAAAMPKyoIFnPgc8p_yWGxuKSv6PvKg'])
 
             <!-- Start Footer Area -->
 @include('frontend/footer')

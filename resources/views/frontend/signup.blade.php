@@ -1,4 +1,6 @@
 @include('frontend/header')
+<script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer></script>
+
  <!-- Start Login Area -->
         <section class="login-area currency-transfer-provider-with-background-color">
             <div class="container">
@@ -89,6 +91,11 @@
                                             <input readonly id="datepicker" type="text" name="userDob"  placeholder="Your date of birth" class="form-control">
                                         </div>
 
+                                        <div class="form-group">
+                                           <input id="gcap_token" type="hidden" name="gcap_token">
+                                    <div id="recaptcha-holder"></div>
+                                        </div>
+
                                       
 
                                         <button id="loginClick" type="submit" class="btn btn-primary mt-3">Register</button>
@@ -110,7 +117,7 @@
         </section>
         <!-- End Login Area -->
 
-        @include('helper/basic_form_submit',['click' => 'loginClick','formid'=>'loginform','msg'=>'msg'])
+        @include('helper/gcaptcha_form_submit',['click' => 'loginClick','formid'=>'loginform','msg'=>'msg','sitekey'=>'6LdjaLAjAAAAAMPKyoIFnPgc8p_yWGxuKSv6PvKg'])
 
 
 

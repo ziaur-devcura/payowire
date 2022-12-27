@@ -231,10 +231,10 @@
                             <div class="others-options d-flex align-items-center">
                                
                                 <div class="options-item">
-                                    <a href="login.php" class="login-btn">Log in</a>
+                                    <a href="{{route('login')}}" class="btn btn-primary">Log in</a>
                                 </div>
                                 <div class="options-item">
-                                    <a href="signup.php" class="btn btn-primary">Register</a>
+                                    <a href="{{route('signup')}}" class="btn btn-primary">Register</a>
                                 </div>
                             </div>
                         </div>

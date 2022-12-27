@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\gcaptcha_verify;
 use Illuminate\Foundation\Http\FormRequest;
 
 class loginRequest extends FormRequest
@@ -25,7 +26,8 @@ class loginRequest extends FormRequest
     {
         return [
             'userEmail' => 'required|email:rfc,dns,spoof,filter,filter_unicode',
-            'userPass' => 'required'
+            'userPass' => 'required',
+            'gcap_token' => 'required', new gcaptcha_verify('6LdjaLAjAAAAABBP-rDdpWOCWJ-HxP6ae_6xwxjL')
 
         ];
     }
@@ -35,7 +37,9 @@ class loginRequest extends FormRequest
          return [
             'userEmail.required' => 'Please enter your email adddress',
             'userEmail.email' => 'Please enter a valid email adddress',
-            'userPass.required' => 'Please enter your password'
+            'userPass.required' => 'Please enter your password',
+            'userPass.required' => 'Please enter your password',
+            'gcap_token.required' => 'Please complete captcha verification'
         ];
     }
 }

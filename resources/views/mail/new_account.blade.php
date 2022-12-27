@@ -339,34 +339,25 @@ Payowire Team
 													<table  class="centerFloat" border="0" align="left" cellpadding="0" cellspacing="0">
 														<tr>
 															<td align="center" valign="middle" width="35">
-																<a href="https://example.com/" style="text-decoration:none;border:0">
+																<a href="https://twitter.com/payowire" style="text-decoration:none;border:0">
 																	<img src="https://editor.liramail.com/images/social/sms6/twitter.png" alt="#" border="0" width="25" style="display:block;border:0;width:25px;">
 																</a>
 															</td>
 
 															<td align="center" valign="middle" width="35">
-																<a href="https://example.com/" style="text-decoration:none;border:0">
+																<a href="https://www.facebook.com/profile.php?id=100087202935067" style="text-decoration:none;border:0">
 																	<img src="https://editor.liramail.com/images/social/sms6/facebook.png" alt="#" border="0" width="25" style="display:block;border:0;width:25px;">
 																</a>
 															</td>
 
-															<td align="center" valign="middle" width="35">
-																<a href="https://example.com/" style="text-decoration:none;border:0">
-																	<img src="https://editor.liramail.com/images/social/sms6/instagram.png" alt="#" border="0" width="25" style="display:block;border:0;width:25px;">
-																</a>
-															</td>
 
 															<td align="center" valign="middle" width="35">
-																<a href="https://example.com/" style="text-decoration:none;border:0">
+																<a href="https://www.linkedin.com/company/payowire/" style="text-decoration:none;border:0">
 																	<img src="https://editor.liramail.com/images/social/sms6/linkedin.png" alt="#" border="0" width="25" style="display:block;border:0;width:25px;">
 																</a>
 															</td>
 
-															<td align="center" valign="middle" width="35">
-																<a href="https://example.com/" style="text-decoration:none;border:0">
-																	<img src="https://editor.liramail.com/images/social/sms6/pinterest.png" alt="#" border="0" width="25" style="display:block;border:0;width:25px;">
-																</a>
-															</td>
+															
 														</tr>
 													</table>	
 												</td>

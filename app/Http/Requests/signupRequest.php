@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
+use App\Rules\gcaptcha_verify;
 
 class signupRequest extends FormRequest
 {
@@ -34,7 +35,8 @@ class signupRequest extends FormRequest
             ->numbers()
             ->symbols()
             ->uncompromised(),
-            'userDob' => 'required|date_format:d/m/Y|before: 18 years ago'
+            'userDob' => 'required|date_format:d/m/Y|before: 18 years ago',
+            'gcap_token' => 'required', new gcaptcha_verify('6LdjaLAjAAAAABBP-rDdpWOCWJ-HxP6ae_6xwxjL')
 
         ];
     }
@@ -55,7 +57,8 @@ class signupRequest extends FormRequest
             'userNewpass.confirmed' => 'new password and confirm password is not matched',
             'userDob.required' => 'The date of birth field is required',
             'userDob.date_format' => 'The date of birth format was incorrect',
-            'userDob.after' => 'You must be 18 years old or above'
+            'userDob.after' => 'You must be 18 years old or above',
+            'gcap_token.required' => 'Please complete captcha verification'
         ];
     }
 }

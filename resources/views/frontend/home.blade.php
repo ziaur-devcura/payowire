@@ -30,7 +30,7 @@
                                       </div>
                                        <div class='cardlogo'>
                                            <div class="">
-                                               <img src="https://payowire.com/assets/img/logo.png')}}">
+                                               <img src="https://payowire.com/assets/img/logo.png">
                                            </div>
                                        </div>
                                         </div>
@@ -117,7 +117,7 @@
                                 </div>
 
                                 <h3>Safe and Secure</h3>
-                                <p>Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan.</p>
+                                <p>Our Service totally safe and secure for every Transaction.</p>
 
                                 <a href="javascipt:void()" class="read-more-btn">Read More</a>
                             </div>

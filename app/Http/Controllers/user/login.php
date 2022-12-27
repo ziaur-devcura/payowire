@@ -320,5 +320,16 @@ class login extends Controller
 
     }
 
+
+      public function aml_view()
+    {
+
+          $header = '<title>Payowire - Anti Money Laundering</title>';
+
+        return view('frontend/aml')
+        ->with('header',$header);
+
+    }
+
     
 }

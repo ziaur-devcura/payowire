@@ -46,6 +46,7 @@ Route::get('/payment', [login::class,'payment_view'])->name('payment');
 Route::get('/faq', [login::class,'faq_view'])->name('faq');
 Route::get('/terms', [login::class,'terms_view'])->name('terms');
 Route::get('/policy', [login::class,'policy_view'])->name('policy');
+Route::get('/aml', [login::class,'aml_view'])->name('aml');
 
 
 Route::get('/login', [login::class,'loginView'])->name('login');
