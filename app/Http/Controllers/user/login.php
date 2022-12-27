@@ -331,5 +331,15 @@ class login extends Controller
 
     }
 
+     public function unsubscribe_view()
+    {
+
+          $header = '<title>Payowire - Unsubscribe</title>';
+
+        return view('frontend/unsubscribe')
+        ->with('header',$header);
+
+    }
+
     
 }

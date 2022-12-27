@@ -37,6 +37,12 @@
                         </div>
                     </div>
 
+                    <div id="business_info" class="d-none mt-5">
+
+                        <div class="alert alert-danger alert-dismissible text-sstart" role="alert">Sorry business account is not available yet.</div>
+
+                    </div>
+
 
 
                                         <div id="account_info" class="d-none mt-5">
@@ -147,7 +153,19 @@
                 $(elm).removeClass("account_type_inactive");
                 $(elm).addClass("account_type_active");
                 $('#accountType').val(type);
-                $('#account_info').removeClass('d-none');
+
+                if(type==2)
+                {
+                    $('#account_info').addClass('d-none');
+                    $('#business_info').removeClass('d-none');
+
+                }
+                else
+                {
+                    $('#account_info').removeClass('d-none');
+                    $('#business_info').addClass('d-none');
+                }
+
 
 
             }

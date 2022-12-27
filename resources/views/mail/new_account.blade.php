@@ -383,7 +383,7 @@ Payowire Team
 										<table class="row" align="right" border="0" cellpadding="0" cellspacing="0">
 											<tr>
 												<td     class=" centerText" align="left" valign="middle" style="font-family:'Open Sans',Arial,helvetica,sans-serif;color:#939393;font-size:14px;line-height:22px;font-weight:400;letter-spacing:0px;">
-													 <a href="https://payowire.com/" style="color:#939393;text-decoration:none;">Unsubscribe</a>
+													 <a href="https://payowire.com/unsubscribe" style="color:#939393;text-decoration:none;">Unsubscribe</a>
 												</td>
 											</tr>
 										</table>

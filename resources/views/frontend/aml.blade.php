@@ -3,12 +3,12 @@
         <div class="page-title-section">
             <div class="container">
                 <div class="page-title-text">
-                    <h2>Terms & Conditions</h2>
+                    <h2>Anti Money Laundering Policy</h2>
                     <p>Terms</p>
 
                     <ul>
                         <li><a href="index.html">Home</a></li>
-                        <li>Terms & Conditions</li>
+                        <li>Anti Money Laundering Policy</li>
                     </ul>
                 </div>
             </div>
