@@ -17,6 +17,14 @@ class login extends Controller
 {
     public function loginView(Request $data)
     {
+
+
+      if(request()->server('SERVER_NAME') == '127.0.0.1')
+        $sitekey = '6LeoQ3UhAAAAAHgDBSmDnvlrvEcgN3rVvfuXjjPx';
+      else
+        $sitekey = '6LdjaLAjAAAAAMPKyoIFnPgc8p_yWGxuKSv6PvKg';
+
+
         if(Auth::check())
            return redirect()->route('user_home');
         else
@@ -24,7 +32,8 @@ class login extends Controller
               $header = '<title>Payowire - Login </title>';
 
                 return view('frontend/login')
-                ->with('header',$header);
+                ->with('header',$header)
+                ->with('sitekey',$sitekey);
         }
     }
 

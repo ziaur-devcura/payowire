@@ -59,7 +59,10 @@
         </section>
         <!-- End Login Area -->
 
-        @include('helper/gcaptcha_form_submit',['click' => 'loginClick','formid'=>'loginform','msg'=>'msg','sitekey'=>'6LdjaLAjAAAAAMPKyoIFnPgc8p_yWGxuKSv6PvKg'])
+        @php $get_sitekye = $sitekey;
+        @endphp
+
+        @include('helper/gcaptcha_form_submit',['click' => 'loginClick','formid'=>'loginform','msg'=>'msg','sitekey'=>$get_sitekye])
 
             <!-- Start Footer Area -->
 @include('frontend/footer')

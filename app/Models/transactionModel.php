@@ -22,6 +22,7 @@ class transactionModel extends Model
         'next_balance',
         'status',
         'refer',
-        'amount'
+        'amount',
+        'details'
     ];
 }

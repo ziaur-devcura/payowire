@@ -42,8 +42,12 @@ class add_bank_payment extends FormRequest
             'confirm' => 'nullable|integer|digits_between:0,1',
             'ben_firstname' => 'required_if:confirm,1|max:255',
             'ben_lastname' => 'required_if:confirm,1|max:255',
+            'ben_city' => 'required_if:confirm,1|max:200',
+            'ben_postal' => 'required_if:confirm,1|max:200',
+            'ben_state' => 'required_if:confirm,1|max:200',
             'ben_address' => 'required_if:confirm,1|max:255',
-            'bank_name' => 'required_if:confirm,1|max:255'
+            'bank_name' => 'required_if:confirm,1|max:255',
+            'account_holder' => 'required_if:confirm,1|max:255'
         ];
 
 
@@ -94,8 +98,16 @@ class add_bank_payment extends FormRequest
             'ben_firstname.max' => 'Beneficiary first name reach max lenght',
             'ben_lastname.required_if' => 'Please enter beneficiary last name',
             'ben_lastname.max' => 'Beneficiary last name reach max lenght',
+            'ben_city.required_if' => 'Please enter city',
+            'ben_city.max' => 'Beneficiary city reach max lenght',
+            'ben_postal.required_if' => 'Please enter postal code',
+            'ben_postal.max' => 'Postal code reach max lenght',
+            'ben_state.required_if' => 'Please enter state',
+            'ben_state.max' => 'State reach max lenght',
             'bank_name.required_if' => 'Please enter bank name',
             'bank_name.max' => 'Bank name reach max lenght',
+            'account_holder.required_if' => 'Please enter bank account holder name',
+            'account_holder.max' => 'Bank account holder reach max lenght',
             'ben_address.required_if' => 'Please enter beneficiary address',
             'ben_address.max' => 'Beneficiary address reach max lenght',
 

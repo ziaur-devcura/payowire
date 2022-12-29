@@ -74,6 +74,10 @@ $('.content-body').on('input', '.amount', function(){
                    });
         }
 
+        $('.select2').each(function() { 
+    $(this).select2({ dropdownParent: $(this).parent()});
+})
+
 
 
       function close_preview(confirm,modal_id,form_id='',msg_id='')

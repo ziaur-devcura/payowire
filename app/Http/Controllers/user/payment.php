@@ -34,6 +34,11 @@ class payment extends Controller
 
         $personal_common_data = '\'<div class="mb-3 row"><label class="form-label">First Name</label><input type="text" name="ben_firstname" class="form-control" placeholder="Enter beneficiary first name"></div>\' +
                                          \'<div class="mb-3 row"><label class="form-label">Last Name</label><input type="text" name="ben_lastname" class="form-control" placeholder="Enter beneficiary last name"></div>\' +
+                                         \'<div class="row">\' +
+                                            \'<div class="mb-3 col-md-4"><label class="form-label">City</label><input type="text" class="form-control" name="ben_city" placeholder="City"></div> \' +
+                                            \'<div class="mb-3 col-md-4"><label class="form-label">Postal Code</label><input type="text" class="form-control" name="ben_postal" placeholder="Postal Code"></div>\' +
+                                            \'<div class="mb-3 col-md-4"><label class="form-label">State</label><input type="text" class="form-control" name="ben_state" placeholder="State"></div>\' +
+                                            \'</div>\' +
                                          \'<div class="mb-3 row"><label class="form-label">Beneficiary Address</label><input type="text" name="ben_address" class="form-control" placeholder="Enter beneficiary address"></div>\' +';
 
         if($confirm == 1)
@@ -42,7 +47,11 @@ class payment extends Controller
             $recipient_type = $request->recipient_type;
             $ben_firstname = $request->ben_firstname;
             $ben_lastname = $request->ben_lastname;
+            $ben_city = $request->ben_city;
+            $ben_postal = $request->ben_postal;
+            $ben_state = $request->ben_state;
             $bank_name = $request->bank_name;
+            $account_holder = $request->account_holder;
             $account_number = $request->account_number;
             $routing_number = $request->routing_number;
             $ben_address = $request->ben_address;
@@ -51,7 +60,7 @@ class payment extends Controller
 
             $userdata = parent::get_auth_user();
 
-            $add_bank = parent::insert_payment_bank($bank_type,$bank_country,$recipient_type,$ben_firstname,$ben_lastname,$bank_name,$account_number,$routing_number,$ben_address,$iban,$swift_code,$userdata->id);
+            $add_bank = parent::insert_payment_bank($bank_type,$bank_country,$recipient_type,$ben_firstname,$ben_lastname,$ben_city,$ben_postal,$ben_state,$bank_name,$account_holder,$account_number,$routing_number,$ben_address,$iban,$swift_code,$userdata->id);
 
             if(isset($add_bank->id))
                 return '<script>
@@ -89,6 +98,7 @@ class payment extends Controller
                                          $("#add_bank_confirm").val(1);
                                          $("#add_bank_step1").addClass("d-none");
                                          $("#add_bank_step2").html('.$personal_common_data.'\'<div class="mb-3 row"><label class="form-label">Bank Name</label><input type="text" name="bank_name" class="form-control" placeholder="Enter bank name"></div>\' +
+                                         \'<div class="mb-3 row"><label class="form-label">Account Holder Name</label><input type="text" name="account_holder" class="form-control" placeholder="Enter account holder name"></div>\' +
                                     \'<div class="mb-3 row"><label class="form-label">IBAN</label><input type="text" name="iban" class="form-control" placeholder="'.$iban_example.'"></div>\' +
                                     \'<div class="mb-3 row"><label class="form-label">Swift Code</label><input type="text" name="swift_code" class="form-control" placeholder="Enter swift/bic"></div>\');
                                      </script>';
@@ -102,6 +112,7 @@ class payment extends Controller
                                          $("#addBankclick").html("Confirm");
                                          $("#add_bank_confirm").val(1);
                                          $("#add_bank_step2").html('.$personal_common_data.'\'<div class="mb-3 row"> <label class="form-label">Bank Name</label><input type="text" name="bank_name" class="form-control" placeholder="Enter bank name"></div>\' +
+                                          \'<div class="mb-3 row"><label class="form-label">Account Holder Name</label><input type="text" name="account_holder" class="form-control" placeholder="Enter account holder name"></div>\' +
                                     \'<div class="mb-3 row"><label class="form-label">Account Number</label><input type="text" name="account_number" class="form-control" placeholder="Enter account number"></div>\' +
                                     \'<div class="mb-3 row"><label class="form-label">Routing Number</label><input type="text" name="routing_number" class="form-control" placeholder="Enter routing number"></div>\');
                                      </script>';
@@ -339,21 +350,22 @@ class payment extends Controller
                 $send_amount = parent::fetch_balance($unpack_sendAmount);
                 $total_amount = parent::fetch_balance($setting->payment_fees + $unpack_sendAmount);
 
+                 
 
                 if($confirm!=1)
 
                    return '<script>
                 $("#preview_result").html(\'<ul class="list-group list-group-flush">\' +
                                     \'<li class="list-group-item d-flex px-0 justify-content-between">\'+
-                                        \'<strong>Bank Name:</strong>\'+
+                                        \'<strong>Bank Name</strong>\'+
                                         \'<span class="mb-0">'.$check_bank_account->bank_name.'</span>\'+
                                     \'</li>\'+
                                     \'<li class="list-group-item d-flex px-0 justify-content-between">\'+
-                                        \'<strong>Bank Country:</strong>\'+
+                                        \'<strong>Bank Country</strong>\'+
                                         \'<span class="mb-0">'.$check_bank_account->bank_country.'</span>\'+
                                     \'</li>\'+
                                     \'<li class="list-group-item d-flex px-0 justify-content-between">\'+
-                                        \'<strong>Purpose:</strong>\'+
+                                        \'<strong>Purpose</strong>\'+
                                         \'<span class="mb-0">'.parent::send_payment_purpose()[$purpose].'</span>\'+
                                     \'</li>\'+
                                     \'<li class="list-group-item d-flex px-0 justify-content-between">\'+
@@ -381,6 +393,11 @@ class payment extends Controller
                 else
                 {
 
+                    $tran_details = array('bank'=>$check_bank_account,'purpose'=>$purpose,'send_amount'=>$send_amount,'actual_amount'=>$actual_send_amount,'send_currency'=>'USD','actual_send_currency'=>'EUR','fees'=>$send_fees,'total_amount'=>$total_amount);
+
+
+                    
+
                     $unpack_total_amount = $setting->payment_fees + $unpack_sendAmount;
 
                      // adjust balance
@@ -389,8 +406,16 @@ class payment extends Controller
 
                       if($adjust_balance == 1)
                       {
+                         
+
+                         $send_payment_api = parent::airwallex_send_payment_api($check_bank_account,$actual_send_amount,$purpose);
+
+                         if($send_payment_api ==1)
+                         {
+
                          // insert transaction
-                         parent::insert_transaction(7,$unpack_total_amount,$mydata->balance,($mydata->balance-$unpack_total_amount),1,$mydata->id);
+                         parent::insert_transaction(7,$unpack_total_amount,$mydata->balance,($mydata->balance-$unpack_total_amount),1,$mydata->id,json_encode($tran_details));
+
 
                            return '<script>
                     
@@ -398,6 +423,15 @@ class payment extends Controller
                 $("#payment_confirm_modal").modal("hide");
                 swal("Payment Sent", "You have sent '.$actual_send_amount.' '.$bank_currency.' successfully to '.$check_bank_account->bank_name.'", "success");
                 </script>';
+                    }
+                    else
+                    {
+                        $adjust_balance = parent::adjust_balance($mydata->id,1,$unpack_total_amount);
+
+                         return parent::get_error_msg('We are unable to process your request at the moment! Please try again later.');
+
+                    }
+
 
                           }
                           else

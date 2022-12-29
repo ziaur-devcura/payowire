@@ -92,11 +92,32 @@ class Controller extends BaseController
     {
 
           $setting = $this->get_airwallex_gateway();
+
+          if(isset($setting->access_token) && !empty($setting->access_token))
+          {
+                // check token valid
+
+             $url = 'https://api.airwallex.com/api/v1/payments/create';
+
+        $headers = array(
+        'Content-type: application/json',
+        'Authorization: Bearer '.$setting->access_token.'',
+            );
+
+        $response= json_decode($this->call_curl($url,$headers,'POST',''));
+
+        if(isset($response->code) && $response->code == 'invalid_argument')
+            return 1;
+
+          }
         
         if((isset($setting->api_key) && !empty($setting->api_key)) && (isset($setting->client_id) && !empty($setting->client_id)))
         {
 
             $gateway_table = $this->get_gateway_table();
+
+
+        // update token
 
         $url = 'https://api.airwallex.com/api/v1/authentication/login';
 
@@ -124,18 +145,144 @@ class Controller extends BaseController
             return 1;
     }
 
+    // airwallex payment purpose
 
-    // airwallex send payment to bank
-
-    public function airwallex_send_payment_api(object $bank_account,$amount,$purpose)
+    public function airwallex_get_purpose()
     {
-
-
+        return array("","wages_salary","personal_remittance","family_support","living_expenses","travel","goods_purchased","professional_business_services");
     }
 
 
+    // airwallex send payment to bank
+
+    public function airwallex_send_payment_api($bank_account,$amount,$purpose)
+    {
+
+        if($this->update_airwallex_api() !=1)
+            return 0;
+        else
+        {
+            if(!isset($bank_account->bank))
+               return 0;
+            
+            $setting = $this->get_airwallex_gateway();
+
+            $source_currency = 'USD';
+            $account_currency = '';
+            $entity_type = '';
+            $country_code = $this->get_payment_country_code()[$bank_account->bank_country] ?? '';
+            $payment_method = 'LOCAL';
+            $local_clearing_system = '';
+            $bank_name = $bank_account->bank_name ?? '';
+            $account_name = $bank_account->account_holder ?? '';
+            $iban = $bank_account->iban ?? '';
+            $swift_code = $bank_account->swift_code ?? '';
+            $account_number = $bank_account->account_number ?? '';
+            $account_routing_type1 = 'aba';
+            $account_routing_value1 = $bank_account->routing_number ?? '';
+            $street_address = $bank_account->ben_address ?? '';
+            $local_clearing_system = 'ACH';
+            $ben_firstname = $bank_account->ben_firstname ?? '';
+            $ben_lastname = $bank_account->ben_lastname ?? '';
+            $ben_city = $bank_account->ben_city ?? '';
+            $ben_postal = $bank_account->ben_postal ?? '';
+            $ben_state = $bank_account->ben_state ?? '';
+            $reason = $this->airwallex_get_purpose()[$purpose] ?? '';
 
 
+            // posting body to api
+            $post_data = '';
+            
+
+        if($account_currency == 'USD')
+                $local_clearing_system = '"local_clearing_system": "ACH"';
+
+
+
+             if(isset($this->sepa_payment_country()[$bank_account->bank_country]))
+            {
+                $account_currency = 'EUR';
+                $post_data = '';
+
+            }
+            else if(isset($this->nomral_payment_country()[$bank_account->bank_country]))
+            {
+                 $account_currency = 'USD';
+
+            }
+           
+           
+
+           if(isset($bank_account->bank_type))
+           {
+
+            if($bank_account->bank_type == 1)
+            {
+                $entity_type = 'PERSONAL';
+
+                 $post_data = [
+   "beneficiary" => [
+         "address" => [
+            "city" => $ben_city, 
+            "country_code" => $country_code, 
+            "postcode" => $ben_postal, 
+            "state" => $ben_state, 
+            "street_address" => $street_address 
+         ], 
+         "bank_details" => [
+               "account_currency" => $account_currency, 
+               "account_name" => $account_name, 
+               "bank_country_code" => $country_code, 
+               "bank_name" => $bank_name, 
+               "iban" => $iban, 
+               "swift_code" => $swift_code 
+            ], 
+         "entity_type" => "PERSONAL", 
+         "first_name" => $ben_firstname, 
+         "last_name" => $ben_lastname 
+      ], 
+   "payment_amount" => $amount, 
+   "payment_currency" => $account_currency, 
+   "payment_method" => "LOCAL", 
+   "reason" => $reason, 
+   "reference" => "payment", 
+   "request_id" => time(), 
+   "source_currency" => "USD" 
+]; 
+ 
+
+
+            }
+            else if($bank_account->bank_type == 2)
+
+                $entity_type = 'COMPANY';
+            }
+         
+           
+          
+
+          
+
+             $url = 'https://api.airwallex.com/api/v1/payments/create';
+
+        $headers = array(
+        'Content-type: application/json',
+        'Authorization: Bearer '.$setting->access_token.'',
+            );
+
+        
+
+        $response= json_decode($this->call_curl($url,$headers,'POST',$post_data));
+
+        if(isset($response->code))
+            return 0;
+        else
+            return 1;
+
+
+        }
+
+    }
 
 
 
@@ -173,7 +320,7 @@ class Controller extends BaseController
 
     // insert payment bank 
 
-    public function insert_payment_bank($bank_type,$bank_country,$recipient_type,$ben_firstname,$ben_lastname,$bank_name,$account_number,$routing_number,$bank_address,$iban,$swift_code,$refer)
+    public function insert_payment_bank($bank_type,$bank_country,$recipient_type,$ben_firstname,$ben_lastname,$ben_city,$ben_postal,$ben_state,$bank_name,$account_holder,$account_number,$routing_number,$bank_address,$iban,$swift_code,$refer)
     {
         $payment_bank_table = $this->get_paymentBank_table();
 
@@ -183,7 +330,11 @@ class Controller extends BaseController
                 'recipient_type'=>$recipient_type,
                 'ben_firstname' => $ben_firstname,
                 'ben_lastname' => $ben_lastname,
+                'ben_city' => $ben_city,
+                'ben_postal' => $ben_postal,
+                'ben_state' => $ben_state,
                 'bank_name' => $bank_name,
+                'account_holder' => $account_holder,
                 'account_number' => $account_number,
                 'routing_number' => $routing_number,
                 'bank_address' => $bank_address,
@@ -274,7 +425,7 @@ class Controller extends BaseController
 
      // transaction insert
 
-     public function insert_transaction($type,$amount,$prev_bal,$next_bal,$status,$refer)
+     public function insert_transaction($type,$amount,$prev_bal,$next_bal,$status,$refer,$details='')
      {
         $transaction_table = $this->get_transaction_table();
 
@@ -284,6 +435,7 @@ class Controller extends BaseController
                 'prev_balance'=>$prev_bal,
                 'next_balance' => $next_bal,
                 'status' => $status,
+                'details' => $details,
                 'refer' => $refer
             ]);;
 
