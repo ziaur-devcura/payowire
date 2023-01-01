@@ -256,6 +256,38 @@ class Controller extends BaseController
             else if($bank_account->bank_type == 2)
 
                 $entity_type = 'COMPANY';
+
+                          $post_data = [
+   "beneficiary" => [
+         "address" => [
+            "city" => $ben_city, 
+            "country_code" => $country_code, 
+            "postcode" => $ben_postal, 
+            "state" => $ben_state, 
+            "street_address" => $street_address 
+         ], 
+         "bank_details" => [
+               "account_currency" => $account_currency, 
+               "account_name" => $account_name, 
+               "bank_country_code" => $country_code, 
+               "bank_name" => $bank_name, 
+               "iban" => $iban, 
+               "swift_code" => $swift_code 
+            ], 
+         "entity_type" => "PERSONAL", 
+         "first_name" => $ben_firstname, 
+         "last_name" => $ben_lastname 
+      ], 
+   "payment_amount" => $amount, 
+   "payment_currency" => $account_currency, 
+   "payment_method" => "LOCAL", 
+   "reason" => $reason, 
+   "reference" => "payment", 
+   "request_id" => time(), 
+   "source_currency" => "USD" 
+]; 
+
+
             }
          
            

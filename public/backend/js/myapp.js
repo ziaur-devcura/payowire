@@ -83,8 +83,8 @@ $('.content-body').on('input', '.amount', function(){
       function close_preview(confirm,modal_id,form_id='',msg_id='')
                                          {
 
-                                            if($("[name='confirm']").length)
-                                            $("[name='confirm']").remove();
+                                            //if($("[name='confirm']").length)
+                                            //$("[name='confirm']").remove();
 
                                             $(modal_id).modal('hide');
 
