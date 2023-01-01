@@ -28,6 +28,7 @@ class payment_bank extends Model
         'account_number',
         'routing_number',
         'ben_address',
+        'account_holder',
         'iban',
         'swift_code',
         'refer'
