@@ -369,7 +369,7 @@ class Controller extends BaseController
                 'account_holder' => $account_holder,
                 'account_number' => $account_number,
                 'routing_number' => $routing_number,
-                'bank_address' => $bank_address,
+                'ben_address' => $bank_address,
                 'iban' => $iban,
                 'swift_code' =>$swift_code,
                 'refer' => $refer
