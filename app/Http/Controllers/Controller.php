@@ -162,7 +162,7 @@ class Controller extends BaseController
             return 0;
         else
         {
-            if(!isset($bank_account->bank))
+            if(!isset($bank_account->id))
                return 0;
             
             $setting = $this->get_airwallex_gateway();
