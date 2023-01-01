@@ -204,10 +204,72 @@ class Controller extends BaseController
                 $account_currency = 'EUR';
                 $post_data = '';
 
+                             $post_data = [
+   "beneficiary" => [
+         "address" => [
+            "city" => $ben_city, 
+            "country_code" => $country_code, 
+            "postcode" => $ben_postal, 
+            "state" => $ben_state, 
+            "street_address" => $street_address 
+         ], 
+         "bank_details" => [
+               "account_currency" => $account_currency, 
+               "account_name" => $account_name, 
+               "bank_country_code" => $country_code, 
+               "bank_name" => $bank_name, 
+               "iban" => $iban, 
+               "swift_code" => $swift_code 
+            ], 
+         "entity_type" => "PERSONAL", 
+         "first_name" => $ben_firstname, 
+         "last_name" => $ben_lastname 
+      ], 
+   "payment_amount" => $amount, 
+   "payment_currency" => $account_currency, 
+   "payment_method" => "LOCAL", 
+   "reason" => $reason, 
+   "reference" => "payment", 
+   "request_id" => time(), 
+   "source_currency" => "USD" 
+];
+
             }
             else if(isset($this->nomral_payment_country()[$bank_account->bank_country]))
             {
                  $account_currency = 'USD';
+
+                                        $post_data = [
+   "beneficiary" => [
+         "address" => [
+            "city" => $ben_city, 
+            "country_code" => $country_code, 
+            "postcode" => $ben_postal, 
+            "state" => $ben_state, 
+            "street_address" => $street_address 
+         ], 
+         "bank_details" => [
+               "account_currency" => $account_currency, 
+               "account_name" => $account_name, 
+               "bank_country_code" => $country_code, 
+               "bank_name" => $bank_name, 
+               "account_number" => $account_number, 
+               "account_routing_type1" => $account_routing_type1,
+               "account_routing_value1" => $account_routing_value1,
+               "local_clearing_system"  => $local_clearing_system
+            ], 
+         "entity_type" => "PERSONAL", 
+         "first_name" => $ben_firstname, 
+         "last_name" => $ben_lastname 
+      ], 
+   "payment_amount" => $amount, 
+   "payment_currency" => $account_currency, 
+   "payment_method" => "LOCAL", 
+   "reason" => $reason, 
+   "reference" => "payment", 
+   "request_id" => time(), 
+   "source_currency" => "USD" 
+];
 
             }
            
@@ -220,73 +282,11 @@ class Controller extends BaseController
             {
                 $entity_type = 'PERSONAL';
 
-                 $post_data = [
-   "beneficiary" => [
-         "address" => [
-            "city" => $ben_city, 
-            "country_code" => $country_code, 
-            "postcode" => $ben_postal, 
-            "state" => $ben_state, 
-            "street_address" => $street_address 
-         ], 
-         "bank_details" => [
-               "account_currency" => $account_currency, 
-               "account_name" => $account_name, 
-               "bank_country_code" => $country_code, 
-               "bank_name" => $bank_name, 
-               "iban" => $iban, 
-               "swift_code" => $swift_code 
-            ], 
-         "entity_type" => "PERSONAL", 
-         "first_name" => $ben_firstname, 
-         "last_name" => $ben_lastname 
-      ], 
-   "payment_amount" => $amount, 
-   "payment_currency" => $account_currency, 
-   "payment_method" => "LOCAL", 
-   "reason" => $reason, 
-   "reference" => "payment", 
-   "request_id" => time(), 
-   "source_currency" => "USD" 
-]; 
- 
-
 
             }
             else if($bank_account->bank_type == 2)
 
                 $entity_type = 'COMPANY';
-
-                          $post_data = [
-   "beneficiary" => [
-         "address" => [
-            "city" => $ben_city, 
-            "country_code" => $country_code, 
-            "postcode" => $ben_postal, 
-            "state" => $ben_state, 
-            "street_address" => $street_address 
-         ], 
-         "bank_details" => [
-               "account_currency" => $account_currency, 
-               "account_name" => $account_name, 
-               "bank_country_code" => $country_code, 
-               "bank_name" => $bank_name, 
-               "iban" => $iban, 
-               "swift_code" => $swift_code 
-            ], 
-         "entity_type" => "PERSONAL", 
-         "first_name" => $ben_firstname, 
-         "last_name" => $ben_lastname 
-      ], 
-   "payment_amount" => $amount, 
-   "payment_currency" => $account_currency, 
-   "payment_method" => "LOCAL", 
-   "reason" => $reason, 
-   "reference" => "payment", 
-   "request_id" => time(), 
-   "source_currency" => "USD" 
-]; 
-
 
             }
          

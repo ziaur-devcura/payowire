@@ -143,8 +143,10 @@ class payment extends Controller
             $my_bank_to_array = '{';
 
         foreach ($fetch_bank_account as $bank) {
+
+            $bank_number = substr($bank->iban,-4) ?? substr($bank->account_number,-4);
             
-            $bank_account = $bank_account . '<option value="'.$bank->id.'">'.$bank->bank_name.'</option>';
+            $bank_account = $bank_account . '<option value="'.$bank->id.'">'.$bank->bank_name.' ('.$bank_number.')</option>';
             $my_bank_to_array = $my_bank_to_array.'"'.$bank->id.'": "'.$bank->bank_country.'",';
 
         }
