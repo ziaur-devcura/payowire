@@ -30,7 +30,7 @@
                                       </div>
                                        <div class='cardlogo'>
                                            <div class="">
-                                               <img src="https://payowire.com/assets/img/logo.png">
+                                               <img src="{{URL::asset('frontend/assets/img/logo.png')}}">
                                            </div>
                                        </div>
                                         </div>
