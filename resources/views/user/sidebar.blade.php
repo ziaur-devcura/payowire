@@ -12,7 +12,7 @@
 								<span class="font-w600 "><b>{{ $userData->firstname}}</b></span>
 								<small class="text-left font-w400 text-break">{{ $userData->email }}</small>
 								<small> Balance: <b class="text-success">${{ $userBalance}}</b> </small>
-								<p class="fs-12">Account ID: {{ $userData->id}}0000</p>
+								<p class="fs-12">Account ID: {{ $userData->id}}</p>
 							</div>
 						</a>
 					
